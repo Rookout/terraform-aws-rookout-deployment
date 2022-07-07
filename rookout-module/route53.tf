@@ -1,42 +1,46 @@
-# module "acm" {
-#   source  = "terraform-aws-modules/acm/aws"
-#   version = "~> 3.0"
+data "aws_route53_zone" "selected" {
+    name         =  var.domain_name
+    private_zone = false
+}
 
-#   domain_name  = "rookout-example.com"
-#   zone_id      = lookup(module.zones.route53_zone_zone_id,"rookout-example.com",null)
+resource "aws_route53_zone" "sub_domain" {
+    name = "rookout.${var.domain_name}"
+    comment = "rookout.${var.domain_name}"
+}
 
-#   subject_alternative_names = [
-#     "*.rookout-example.com",
-#   ]
+resource "aws_route53_record" "rookout" {
+    allow_overwrite = true
+    zone_id = data.aws_route53_zone.selected.zone_id
+    name    = "rookout.${data.aws_route53_zone.selected.name}"
+    type    = "NS"
+    ttl     = "172800"
+    records = aws_route53_zone.sub_domain.name_servers
+}
 
-#   wait_for_validation = true
+module "acm" {
+  source  = "terraform-aws-modules/acm/aws"
+  version = "~> 3.0"
 
-#   tags = {
-#     Name = "rookout-example.com"
-#   }
-# }
+  domain_name  = "rookout.${var.domain_name}"
+  zone_id      = aws_route53_zone.sub_domain.zone_id
+  
+  subject_alternative_names = [
+    "datastore.rookout.${var.domain_name}",
+    "controller.rookout.${var.domain_name}",
+  ]
 
-# module "zones" {
-#   source  = "terraform-aws-modules/route53/aws//modules/zones"
-#   version = "~> 2.0"
+  wait_for_validation = true
+  tags = local.tags
+}
 
-#   zones = {
-#     "rookout-example.com" = {
-#       # in case than private and public zones with the same domain name
-#       domain_name = "rookout-example.com"
-#       comment     = "rookout-example.com"
-#       vpc = [
-#         {
-#           vpc_id = module.vpc[0].vpc_id
-#         },
-#       ]
-#       tags = {
-#         Name = "rookout-example.com"
-#       }
-#     }
-#   }
+resource "aws_route53_record" "controller" {
+    zone_id = aws_route53_zone.sub_domain.id
+    name    = "controller.rookout.${var.domain_name}"
+    type    = "A"
 
-#   tags = {
-#     ManagedBy = "Terraform"
-#   }
-# }
+    alias {
+      name = aws_alb.controller.dns_name
+      zone_id = aws_alb.controller.zone_id
+      evaluate_target_health = true
+    }
+}

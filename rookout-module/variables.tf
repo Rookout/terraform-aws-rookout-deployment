@@ -4,12 +4,26 @@ variable "environment" {
     default = "demo"
     description = "Enviorment name"
 }
+variable "region" {
+    type = string
+    default = "eu-west-1"
+    description = "Aws region"
+}
 
 ## ECS variables
 variable "create_cluster" {
     type = bool
     default = true
     description = "whether create a cluster or use existing one"
+}
+
+
+## DNS
+
+variable "domain_name" {
+    type = string
+    default = "rookout-example.com"
+    description = "DNS domain which sub"
 }
 
 #should be configured only of create_cluster = false
@@ -19,27 +33,14 @@ variable "cluster_name" {
     description = "ECS cluster name, if we want to deploy to existing one"
 }
 
-variable "prviate_dns_namespace_name" {
-    type = string
-    default = "rookout-exmaple.local"
-    description = "Namespace of rookout"
-}
-
-variable "region" {
-    type = string
-    default = "eu-west-1"
-    description = "Region of ECS"
-}
 
 ## Rookout variables
 
 variable "deploy_demo_app" {
     type = bool
     default = true
-    description = "If true will deploy demo flask application to start debuging"
+    description = "(Optional) If true will deploy demo flask application to start debuging"
 }
-
-## Rookout variables
 
 variable "rookout_token_arn" {
     type = string
@@ -83,11 +84,6 @@ variable "vpc_cidr" {
     default = "10.0.0.0/16"
 }
 
-variable "client_cidr" {
-    type = string
-    default = "10.1.0.0/22"
-}
-
 variable "vpc_avilability_zones" {
     type = list(string)
     default = ["eu-west-1a", "eu-west-1b"]
@@ -95,10 +91,10 @@ variable "vpc_avilability_zones" {
 
 variable "vpc_private_subnets" {
     type = list(string)
-    default = ["10.0.4.0/27", "10.0.4.32/27"]
+    default = ["10.0.0.0/27", "10.0.0.32/27"]
 }
 
 variable "vpc_public_subnets" {
     type = list(string)
-    default = ["10.0.4.64/27", "10.0.4.128/27"]
+    default = ["10.0.0.64/27", "10.0.0.128/27"]
 }

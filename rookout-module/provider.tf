@@ -7,11 +7,7 @@ provider "awsutils" {
   region = "eu-west-1"
 }
 
-provider "tls" {
-}
-
-provider "local" {}
-
+#Should be removed !!!
 terraform {
   backend "s3" {
     bucket = "tf-remote-state20220627150551250100000002"

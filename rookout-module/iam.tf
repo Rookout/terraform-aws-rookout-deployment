@@ -60,13 +60,6 @@ resource "aws_iam_policy" "secret_manager_read" {
 
                 ]
                 Resource = ["*"]
-            },
-            {
-                Effect = "Allow"
-                Action = [
-                    "appmesh:StreamAggregatedResources"
-                ]
-                Resource = ["*"]
             }
         ]
   })
