@@ -18,3 +18,7 @@ resource "aws_cloudwatch_log_group" "rookout" {
    name_prefix = "rookout"
 }
 
+resource "aws_cloudwatch_log_group" "demo" {
+  count = var.deploy_demo ? 1 : 0
+   name_prefix = "demo"
+}

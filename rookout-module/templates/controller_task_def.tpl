@@ -23,6 +23,10 @@
       {
         "name": "ROOKOUT_CONTROLLER_SERVER_MODE",
         "value": "${controller_server_mode}"
+      },
+      {
+        "name": "ROOKOUT_ENFORCE_TOKEN",
+        "value": "true"
       }
     ],
     "secrets": [

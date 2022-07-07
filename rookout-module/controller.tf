@@ -52,14 +52,6 @@ resource "aws_ecs_task_definition" "controller" {
    task_definition = aws_ecs_task_definition.controller.arn
    desired_count   = 1
    launch_type     = "FARGATE"
-#    load_balancer { 
-#        target_group_arn = aws_lb_target_group.controller.arn
-#        container_name   = local.controller_settings.container_name
-#        container_port   = local.controller_settings.container_port
-#    }
-  #  service_registries {
-  #    registry_arn = aws_service_discovery_service.controller.arn
-  #  }
    network_configuration {
      security_groups  = [aws_security_group.allow_controller.id]
      subnets          = module.vpc[0].private_subnets

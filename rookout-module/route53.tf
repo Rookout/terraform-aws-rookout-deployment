@@ -27,6 +27,7 @@ module "acm" {
   subject_alternative_names = [
     "datastore.rookout.${var.domain_name}",
     "controller.rookout.${var.domain_name}",
+    "demo.rookout.${var.domain_name}",
   ]
 
   wait_for_validation = true
@@ -41,6 +42,31 @@ resource "aws_route53_record" "controller" {
     alias {
       name = aws_alb.controller.dns_name
       zone_id = aws_alb.controller.zone_id
+      evaluate_target_health = true
+    }
+}
+
+resource "aws_route53_record" "datastore" {
+    zone_id = aws_route53_zone.sub_domain.id
+    name    = "datastore.rookout.${var.domain_name}"
+    type    = "A"
+
+    alias {
+      name = aws_alb.datastore.dns_name
+      zone_id = aws_alb.datastore.zone_id
+      evaluate_target_health = true
+    }
+}
+
+resource "aws_route53_record" "demo" {
+    count = var.deploy_demo ? 1 : 0
+    zone_id = aws_route53_zone.sub_domain.id
+    name    = "demo.rookout.${var.domain_name}"
+    type    = "A"
+
+    alias {
+      name = aws_alb.demo[0].dns_name
+      zone_id = aws_alb.demo[0].zone_id
       evaluate_target_health = true
     }
 }

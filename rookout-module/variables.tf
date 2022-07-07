@@ -10,6 +10,12 @@ variable "region" {
     description = "Aws region"
 }
 
+## Demo
+variable "deploy_demo" {
+    type = bool
+    default = true
+    description = "whether to deploy demo application"
+}
 ## ECS variables
 variable "create_cluster" {
     type = bool
