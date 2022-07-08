@@ -15,13 +15,6 @@ variable "deploy_demo" {
   default     = true
   description = "whether to deploy demo application"
 }
-## ECS variables
-variable "create_cluster" {
-  type        = bool
-  default     = true
-  description = "whether create a cluster or use existing one"
-}
-
 
 ## DNS
 
@@ -29,6 +22,14 @@ variable "domain_name" {
   type        = string
   default     = "rookout-example.com"
   description = "DNS domain which sub"
+}
+
+
+## ECS variables
+variable "create_cluster" {
+  type        = bool
+  default     = true
+  description = "whether create a cluster or use existing one"
 }
 
 #should be configured only of create_cluster = false
@@ -39,8 +40,8 @@ variable "cluster_name" {
 }
 
 
-## Rookout variables
 
+## Rookout variables
 variable "deploy_datastore" {
   type        = bool
   default     = true
