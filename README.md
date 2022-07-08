@@ -14,14 +14,14 @@ The module implements the following architecture:
     * AWS CLI - Change the <rookout_token> placeholder with your token and run:
        * `aws secretsmanager create-secret --name rookout-token --description "Rookout token" --secret-string "<rookout_token>"`
     * AWS Console - follow this [tutorial](https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html)
-    * If secret stored with other name name, please pass it's name with `rookout_token_arn` variable insted. 
+    * If secret stored with other name name, please configure `rookout_token_arn` variable insted. 
 
 ## Level of rookout deployment
 1. Controller only
 2. Conroller + Datastore
 3. Controller + Datastore + Demo application (default)
 
-## Level of infrastcture deployment
+## Level of infrastructure deployment
 1. provided Domain (default)
 2. provided Domain + VPC and subnets
 3. provided Domain + VPC and subnets + ECS cluster
