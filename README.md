@@ -21,7 +21,7 @@ The module implements the following architecture:
 2. Conroller + Datastore
 3. Controller + Datastore + Demo application (default)
 
-## Level of infrastcture deployment
+## Level of infrastructure deployment
 1. provided Domain (default)
 2. provided Domain + VPC and subnets
 3. provided Domain + VPC and subnets + ECS cluster
