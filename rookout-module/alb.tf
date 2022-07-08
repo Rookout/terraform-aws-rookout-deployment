@@ -67,7 +67,7 @@ resource "aws_security_group" "alb_controller" {
 
 
 resource "aws_alb" "datastore" {
-  count = var.deploy_datastore ? 1 : 0 
+  count = var.deploy_datastore ? 1 : 0
 
   name               = "rookout-datastore-alb"
   internal           = false
@@ -78,7 +78,7 @@ resource "aws_alb" "datastore" {
 }
 resource "aws_lb_target_group" "datastore" {
   count = var.deploy_datastore ? 1 : 0
-  
+
   name        = local.datastore_settings.container_name
   port        = local.datastore_settings.container_port
   protocol    = "HTTP"
@@ -158,7 +158,7 @@ resource "aws_lb_target_group" "demo" {
 
 
 resource "aws_lb_listener" "demo" {
-  count             = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo ? 1 : 0
 
   load_balancer_arn = aws_alb.demo[0].arn
   port              = 443
@@ -172,7 +172,7 @@ resource "aws_lb_listener" "demo" {
 }
 
 resource "aws_security_group" "alb_demo" {
-  count       = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo ? 1 : 0
 
   name        = "${local.demo_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout demo application"
