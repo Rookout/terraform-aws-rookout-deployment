@@ -2,6 +2,7 @@
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
 The module implements the following architecture:
+
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="791" height="416">
 
 ### Prerequisites
@@ -27,10 +28,10 @@ The module implements the following architecture:
 3. provided Domain + VPC and subnets + ECS cluster
 
 ## DNS
-To run this module, controller, datastore (optional) and demo application (optional) endpoint should be create. for that ALB will be deployed usign ACM and provided domain adress. subdomain if that will be create in route53. if you don't use route53 as your's public host zone manager, please contect us for support.
+To run this module, controller, datastore (optional) and demo application (optional) endpoint should be created. To accomplish that ALB will be deployed usign ACM and provided domain address. subdomain will be create in route53. if you don't use route53 as your's dns registry, please contect us for support.
 
 ## Main variables
-For vanilla deployment, inject the secret is described in prerequisites, change dirctory to rookout-moudle, configure aws and awsutil providers, configure "domain_name" variable of your's DNS and run terraform apply.
+For vanilla deployment, inject the secret that described in prerequisites, change dirctory to rookout-moudle, configure aws and awsutil providers, configure "domain_name" variable of your's DNS and run terraform apply.
 
 Main radio buttons of this module are: 
 create_vpc - Boolean variable, if true (default) will create VPC (using variables: vpc_cidr, vpc_avilability_zones, vpc_private_subnets, vpc_public_subnets). If false, provide vpc_id of your's.
