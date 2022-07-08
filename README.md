@@ -2,7 +2,7 @@
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
 The module implements the following architecture:
-<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="852" height="361">
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="603" height="333">
 
 ### Prerequisites
 1. terraform installed
