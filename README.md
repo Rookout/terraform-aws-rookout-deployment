@@ -3,7 +3,7 @@ Compatible with Terraform version: `>= v0.13`
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
 The module implements the following architecture:
-<img src="https://github.com/Rookout/aws-deployment/blob/RK-12867-quick-deploy-aws-terraform/documentation/AWS_Deployment.jpg" width="852" height="361">
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="852" height="361">
 
 ### Prerequisites
 1. terraform installed
