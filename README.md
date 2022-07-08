@@ -137,5 +137,9 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_vpc"></a> [vpc](#output\_vpc) | n/a |
+| <a name="output_controller_endpoint"></a> [controller\_endpoint](#output\_controller\_endpoint) | Rookout's on-prem controller endpoint |
+| <a name="output_datastore_endpoint"></a> [datastore\_endpoint](#output\_datastore\_endpoint) | Rookout's on-prem datastore endpoint |
+| <a name="output_demo_endpoint"></a> [demo\_endpoint](#output\_demo\_endpoint) | Rookout's flask application endpoint |
+| <a name="output_ecs_cluster_id"></a> [ecs\_cluster\_id](#output\_ecs\_cluster\_id) | ECS cluster |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC id that created |
 <!-- END_TF_DOCS -->
