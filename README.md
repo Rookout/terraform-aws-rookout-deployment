@@ -1,5 +1,4 @@
 ## Deploy Rookout Agent on AWS ECS Fargate Cluster using Terraform
-Compatible with Terraform version: `>= v0.13`
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
 The module implements the following architecture:
