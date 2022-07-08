@@ -5,7 +5,7 @@ locals {
     task_cpu           = 512
     task_memory        = 1024
     onprem_enabled     = true
-    dop_no_ssl_verify  = false 
+    dop_no_ssl_verify  = false
     server_mode        = "PLAIN"
     container_cpu      = 256
     container_memory   = 512

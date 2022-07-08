@@ -72,7 +72,7 @@ resource "aws_cloudwatch_log_stream" "demo_log_stream" {
 
 
 resource "aws_security_group" "allow_demo" {
-  count       = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo ? 1 : 0
 
   name        = local.demo_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout demo application"
