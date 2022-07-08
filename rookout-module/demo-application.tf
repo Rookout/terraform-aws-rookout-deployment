@@ -19,7 +19,7 @@ locals {
         log_stream                = aws_cloudwatch_log_stream.demo_log_stream[0].name
         aws_region                = var.region
         controller_host           = "wss://${aws_route53_record.controller.fqdn}"
-        controller_port           = local.controller_settings.container_port
+        controller_port           = 443 #local.controller_settings.container_port
         remote_origin             = "https://github.com/Rookout/tutorial-python.git"
         commit                    = "HEAD"
         rookout_token_arn         = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
