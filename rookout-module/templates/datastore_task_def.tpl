@@ -1,7 +1,7 @@
 [
   {
     "name": "${name}",
-    "image": "032275105219.dkr.ecr.eu-west-1.amazonaws.com/data-on-prem:latest",
+    "image": "rookout/data-on-prem:latest",
     "cpu": ${cpu},
     "memory": ${memory},
     "memoryReservation": ${memory},

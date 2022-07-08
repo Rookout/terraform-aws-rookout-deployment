@@ -20,7 +20,7 @@ locals {
     memory                 = local.datastore_settings.container_memory
     port                   = local.datastore_settings.container_port
     log_group              = aws_cloudwatch_log_group.rookout.name
-    log_stream             = aws_cloudwatch_log_stream.datastore_log_stream.name
+    log_stream             = aws_cloudwatch_log_stream.datastore_log_stream[0].name
     aws_region             = var.region
     rookout_token_arn      = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
     datastore_server_mode  = "PLAIN"
@@ -32,6 +32,7 @@ locals {
 }
 
 resource "aws_ecs_task_definition" "datastore" {
+  count = var.deploy_datastore ? 1 : 0
 
   family                   = local.datastore_settings.container_name
   requires_compatibilities = ["FARGATE"]
@@ -49,31 +50,35 @@ resource "aws_ecs_task_definition" "datastore" {
 }
 
 resource "aws_ecs_service" "datastore" {
+  count = var.deploy_datastore ? 1 : 0
 
   name            = local.datastore_settings.container_name
   cluster         = var.create_cluster ? aws_ecs_cluster.rookout[0].id : data.aws_ecs_cluster.provided[0].id
-  task_definition = aws_ecs_task_definition.datastore.arn
+  task_definition = aws_ecs_task_definition.datastore[0].arn
   desired_count   = 1
   launch_type     = "FARGATE"
   load_balancer {
-    target_group_arn = aws_lb_target_group.datastore.arn
+    target_group_arn = aws_lb_target_group.datastore[0].arn
     container_name   = local.datastore_settings.container_name
     container_port   = local.datastore_settings.container_port
   }
 
   network_configuration {
-    security_groups = [aws_security_group.datastore.id]
+    security_groups = [aws_security_group.datastore[0].id]
     subnets         = module.vpc[0].private_subnets
   }
 }
 
 resource "aws_cloudwatch_log_stream" "datastore_log_stream" {
+  count = var.deploy_datastore ? 1 : 0
+
   name           = "rookout-datastore"
   log_group_name = aws_cloudwatch_log_group.rookout.name
 }
 
 
 resource "aws_security_group" "datastore" {
+  count = var.deploy_datastore ? 1 : 0
 
   name        = local.datastore_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout datastore"

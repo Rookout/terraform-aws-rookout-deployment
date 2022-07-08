@@ -10,7 +10,6 @@ variable "region" {
   description = "Aws region"
 }
 
-## Demo
 variable "deploy_demo" {
   type        = bool
   default     = true
@@ -42,6 +41,11 @@ variable "cluster_name" {
 
 ## Rookout variables
 
+variable "deploy_datastore" {
+  type        = bool
+  default     = true
+  description = "(Optional) If true will deploy demo Rookout's datastore locally"
+}
 variable "deploy_demo_app" {
   type        = bool
   default     = true
@@ -51,7 +55,7 @@ variable "deploy_demo_app" {
 variable "rookout_token_arn" {
   type        = string
   default     = ""
-  description = "arn of rookout secret in secret manager"
+  description = "Manual injecting arn of rookout secret from secret manager"
 }
 
 variable "secret_key" {
@@ -59,21 +63,8 @@ variable "secret_key" {
   default     = "rookout-token"
   description = "Key of secret in secret manager"
 }
-## ALB variables
-#if this variable set to false. please set manully the varibels
-variable "create_alb" {
-  type    = bool
-  default = true
-}
-
-variable "alb_arn" {
-  type        = string
-  description = "VPC should be passed only if creat_alb = false"
-  default     = ""
-}
 
 ## VPC variables. 
-#if this variable set to false. please set manully the varibels
 variable "create_vpc" {
   type    = bool
   default = true

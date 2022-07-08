@@ -5,7 +5,7 @@ locals {
     task_cpu           = 512
     task_memory        = 1024
     onprem_enabled     = true
-    dop_no_ssl_verify  = true
+    dop_no_ssl_verify  = false 
     server_mode        = "PLAIN"
     container_cpu      = 256
     container_memory   = 512
@@ -23,7 +23,7 @@ locals {
     aws_region             = var.region
     rookout_token_arn      = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
     controller_server_mode = "PLAIN"
-    onprem_enabled         = local.controller_settings.onprem_enabled
+    onprem_enabled         = var.deploy_datastore ? local.controller_settings.onprem_enabled : false
     dop_no_ssl_verify      = local.controller_settings.dop_no_ssl_verify
   })
 

@@ -47,13 +47,15 @@ resource "aws_route53_record" "controller" {
 }
 
 resource "aws_route53_record" "datastore" {
+  count = var.deploy_datastore ? 1 : 0
+  
   zone_id = aws_route53_zone.sub_domain.id
   name    = "datastore.rookout.${var.domain_name}"
   type    = "A"
 
   alias {
-    name                   = aws_alb.datastore.dns_name
-    zone_id                = aws_alb.datastore.zone_id
+    name                   = aws_alb.datastore[0].dns_name
+    zone_id                = aws_alb.datastore[0].zone_id
     evaluate_target_health = true
   }
 }
