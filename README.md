@@ -45,7 +45,9 @@ deploy_demo_app - Boolean variable, if true (default) will deploy demo flask app
 
 ## Endpoints
 controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) .
+
 datastore.PROVIDED_DOMAIN - url to the datastore, used with rookout client (web browser application).
+
 demo.PROVIDE_DOMAIN - flask demo application for debuging.  
 
 <!-- BEGIN_TF_DOCS -->
