@@ -70,20 +70,6 @@ Network architecture:
 ## DNS
 To run this module, controller, datastore (optional) and demo application (optional) endpoint should be created. To accomplish that ALB will be deployed usign ACM and provided domain address. subdomain will be create in route53. if you don't use route53 as your's dns registry, please contect us for support.
 
-## Main variables
-For vanilla deployment, inject the secret that described in prerequisites, change dirctory to rookout-moudle, configure aws and awsutil providers, configure "domain_name" variable of your's DNS and run terraform apply.
-
-Main radio buttons of this module are: 
-
-create_vpc - Boolean variable, if true (default) will create VPC (using variables: vpc_cidr, vpc_avilability_zones, vpc_private_subnets, vpc_public_subnets). If false, provide vpc_id of your's.
-
-create_cluster - Boolean variables, if true (default) will be create ECS cluster for service. If false, should be provided with cluster_name variable.
-
-deploy_datastore - Boolean variables, if true (default) will deploy datastore and configure the enviorment variables need in controller. If false, Rookout will use remote datastore for the application.
-
-deploy_demo_app_app - Boolean variable, if true (default) will deploy demo flask application in ECS cluster, injected with: Rookout's token that sotred in AWS Secret Manager, controller URL. Application avilable in demo.PROVIDE_DOMAIN endpoint. if false, will not deploy the application.
-
-
 ## Endpoints
 controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) .
 
