@@ -26,7 +26,7 @@ Network architecture:
 2. Controller + Datastore
 3. Controller + Datastore + Demo application (default)
 ```
-    This can be achived with the folloiwng boolean variables:
+    This can be configured with the folloiwng boolean variables:
     deploy_datastore = true/false
     deploy_demo_app = true/false
 ```
