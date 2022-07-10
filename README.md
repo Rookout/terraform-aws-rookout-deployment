@@ -13,7 +13,7 @@ The module implements the following architecture:
 3. [Optional] - remote state bucket and dyanmoDB lock. can be created with attached tf-bucked module.
 4. Create a secret in the secrets manager with your Rookout token using one of the following options:
     * AWS CLI - Change the <rookout_token> placeholder with your token and run:
-       * `aws secretsmanager create-secret --name rookout-token --description "Rookout token" --secret-string "<rookout_token>"`
+       * `aws secretsmanager create-secret --name rookout-token --description "Rookout token" --secret-string "{\"rookout-token\":\"<rookout_token>\"}"`
     * AWS Console - follow this [tutorial](https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html)
     * If secret stored with other name name, please configure `rookout_token_arn` variable insted. 
 
