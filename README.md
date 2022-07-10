@@ -165,8 +165,11 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_controller_dns"></a> [controller\_dns](#output\_controller\_dns) | Rookout's on-prem controller dns |
 | <a name="output_controller_endpoint"></a> [controller\_endpoint](#output\_controller\_endpoint) | Rookout's on-prem controller endpoint |
+| <a name="output_datastore_dns"></a> [datastore\_dns](#output\_datastore\_dns) | Rookout's on-prem datastore DNS |
 | <a name="output_datastore_endpoint"></a> [datastore\_endpoint](#output\_datastore\_endpoint) | Rookout's on-prem datastore endpoint |
+| <a name="output_demo_dns"></a> [demo\_dns](#output\_demo\_dns) | Rookout's flask application DNS |
 | <a name="output_demo_endpoint"></a> [demo\_endpoint](#output\_demo\_endpoint) | Rookout's flask application endpoint |
 | <a name="output_ecs_cluster_id"></a> [ecs\_cluster\_id](#output\_ecs\_cluster\_id) | ECS cluster |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC id that created |
