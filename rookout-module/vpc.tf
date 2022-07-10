@@ -18,9 +18,5 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags = {
-    Terraform   = "true"
-    Environment = var.environment
-    Service     = "rookout"
-  }
+  tags = local.tags
 }

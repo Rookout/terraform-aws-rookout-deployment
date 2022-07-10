@@ -61,7 +61,7 @@ resource "aws_route53_record" "datastore" {
 }
 
 resource "aws_route53_record" "demo" {
-  count   = var.deploy_demo ? 1 : 0
+  count   = var.deploy_demo_app ? 1 : 0
   zone_id = aws_route53_zone.sub_domain.id
   name    = "demo.rookout.${var.domain_name}"
   type    = "A"

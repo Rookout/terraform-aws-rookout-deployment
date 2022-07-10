@@ -65,7 +65,7 @@ resource "aws_ecs_service" "datastore" {
 
   network_configuration {
     security_groups = [aws_security_group.datastore[0].id]
-    subnets         = module.vpc[0].private_subnets
+    subnets         = var.create_vpc ? module.vpc[0].private_subnets : var.vpc_private_subnets
   }
 }
 

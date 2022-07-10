@@ -1,4 +1,4 @@
-## Deploy Rookout Agent on AWS ECS Fargate Cluster using Terraform
+## Deploy Rookout on AWS ECS Fargate Cluster using Terraform
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
 The module implements the following architecture:
@@ -19,7 +19,7 @@ The module implements the following architecture:
 
 ## Level of rookout deployment
 1. Controller only
-2. Conroller + Datastore
+2. Controller + Datastore
 3. Controller + Datastore + Demo application (default)
 
 ## Level of infrastructure deployment
@@ -34,13 +34,14 @@ To run this module, controller, datastore (optional) and demo application (optio
 For vanilla deployment, inject the secret that described in prerequisites, change dirctory to rookout-moudle, configure aws and awsutil providers, configure "domain_name" variable of your's DNS and run terraform apply.
 
 Main radio buttons of this module are: 
+
 create_vpc - Boolean variable, if true (default) will create VPC (using variables: vpc_cidr, vpc_avilability_zones, vpc_private_subnets, vpc_public_subnets). If false, provide vpc_id of your's.
 
 create_cluster - Boolean variables, if true (default) will be create ECS cluster for service. If false, should be provided with cluster_name variable.
 
 deploy_datastore - Boolean variables, if true (default) will deploy datastore and configure the enviorment variables need in controller. If false, Rookout will use remote datastore for the application.
 
-deploy_demo_app - Boolean variable, if true (default) will deploy demo flask application in ECS cluster, injected with: Rookout's token that sotred in AWS Secret Manager, controller URL. Application avilable in demo.PROVIDE_DOMAIN endpoint. if false, will not deploy the application.
+deploy_demo_app_app - Boolean variable, if true (default) will deploy demo flask application in ECS cluster, injected with: Rookout's token that sotred in AWS Secret Manager, controller URL. Application avilable in demo.PROVIDE_DOMAIN endpoint. if false, will not deploy the application.
 
 
 ## Endpoints
@@ -122,10 +123,9 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 | <a name="input_create_cluster"></a> [create\_cluster](#input\_create\_cluster) | whether create a cluster or use existing one | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | # VPC variables. | `bool` | `true` | no |
 | <a name="input_deploy_datastore"></a> [deploy\_datastore](#input\_deploy\_datastore) | (Optional) If true will deploy demo Rookout's datastore locally | `bool` | `true` | no |
-| <a name="input_deploy_demo"></a> [deploy\_demo](#input\_deploy\_demo) | whether to deploy demo application | `bool` | `true` | no |
 | <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `true` | no |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `"rookout-example.com"` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Enviorment name | `string` | `"demo"` | no |
+| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `""` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"demo"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Aws region | `string` | `"eu-west-1"` | no |
 | <a name="input_rookout_token_arn"></a> [rookout\_token\_arn](#input\_rookout\_token\_arn) | Manual injecting arn of rookout secret from secret manager | `string` | `""` | no |
 | <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | Key of secret in secret manager | `string` | `"rookout-token"` | no |

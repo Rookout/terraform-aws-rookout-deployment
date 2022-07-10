@@ -29,7 +29,7 @@ locals {
 
 
 resource "aws_ecs_task_definition" "demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   family                   = "${local.demo_settings.container_name}-${var.environment}"
   requires_compatibilities = ["FARGATE"]
@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "demo" {
 }
 
 resource "aws_ecs_service" "demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   name            = local.demo_settings.container_name
   cluster         = var.create_cluster ? aws_ecs_cluster.rookout[0].id : data.aws_ecs_cluster.provided[0].id
@@ -52,7 +52,7 @@ resource "aws_ecs_service" "demo" {
   launch_type     = "FARGATE"
   network_configuration {
     security_groups = [aws_security_group.allow_demo[0].id]
-    subnets         = module.vpc[0].private_subnets
+    subnets         = var.create_vpc ? module.vpc[0].private_subnets : var.vpc_private_subnets
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.demo[0].arn
@@ -63,7 +63,7 @@ resource "aws_ecs_service" "demo" {
 
 
 resource "aws_cloudwatch_log_stream" "demo_log_stream" {
-  count          = var.deploy_demo ? 1 : 0
+  count          = var.deploy_demo_app ? 1 : 0
   name           = "demo"
   log_group_name = aws_cloudwatch_log_group.rookout.name
 }
@@ -72,7 +72,7 @@ resource "aws_cloudwatch_log_stream" "demo_log_stream" {
 
 
 resource "aws_security_group" "allow_demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   name        = local.demo_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout demo application"

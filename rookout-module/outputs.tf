@@ -9,7 +9,7 @@ output "datastore_endpoint" {
 }
 
 output "demo_endpoint" {
-  value       = var.deploy_demo_app ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
+  value       = var.deploy_demo_app_app ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
   description = "Rookout's flask application endpoint"
 }
 

@@ -2,6 +2,7 @@ locals {
   tags = {
     terraform   = true
     Environment = var.environment
+    Service     = "rookout"
   }
 }
 resource "aws_ecs_cluster" "rookout" {
@@ -21,6 +22,6 @@ resource "aws_cloudwatch_log_group" "rookout" {
 }
 
 resource "aws_cloudwatch_log_group" "demo" {
-  count       = var.deploy_demo ? 1 : 0
+  count       = var.deploy_demo_app ? 1 : 0
   name_prefix = "demo"
 }

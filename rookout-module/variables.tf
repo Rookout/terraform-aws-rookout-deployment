@@ -2,7 +2,7 @@
 variable "environment" {
   type        = string
   default     = "demo"
-  description = "Enviorment name"
+  description = "Environment name"
 }
 variable "region" {
   type        = string
@@ -10,17 +10,11 @@ variable "region" {
   description = "Aws region"
 }
 
-variable "deploy_demo" {
-  type        = bool
-  default     = true
-  description = "whether to deploy demo application"
-}
-
 ## DNS
 
 variable "domain_name" {
   type        = string
-  default     = "rookout-example.com"
+  default     = ""
   description = "DNS domain which sub"
 }
 
@@ -38,8 +32,6 @@ variable "cluster_name" {
   default     = ""
   description = "ECS cluster name, if we want to deploy to existing one"
 }
-
-
 
 ## Rookout variables
 variable "deploy_datastore" {

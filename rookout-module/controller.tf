@@ -52,7 +52,7 @@ resource "aws_ecs_service" "controller" {
   launch_type     = "FARGATE"
   network_configuration {
     security_groups = [aws_security_group.controller.id]
-    subnets         = module.vpc[0].private_subnets
+    subnets         = var.create_vpc ? module.vpc[0].private_subnets : var.vpc_private_subnets
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.controller.arn

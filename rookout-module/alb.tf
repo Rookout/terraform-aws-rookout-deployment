@@ -8,7 +8,7 @@ resource "aws_alb" "controller" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_controller.id]
-  subnets            = module.vpc[0].public_subnets
+  subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
   tags               = local.tags
 }
 
@@ -73,7 +73,7 @@ resource "aws_alb" "datastore" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_datastore[0].id]
-  subnets            = module.vpc[0].public_subnets
+  subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
   tags               = local.tags
 }
 resource "aws_lb_target_group" "datastore" {
@@ -132,18 +132,18 @@ resource "aws_security_group" "alb_datastore" {
 ################################################################################
 
 resource "aws_alb" "demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   name               = "rookout-demo-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_demo[0].id]
-  subnets            = module.vpc[0].public_subnets
+  subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
   tags               = local.tags
 }
 
 resource "aws_lb_target_group" "demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   name        = local.demo_settings.container_name
   port        = local.demo_settings.container_port
@@ -158,7 +158,7 @@ resource "aws_lb_target_group" "demo" {
 
 
 resource "aws_lb_listener" "demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   load_balancer_arn = aws_alb.demo[0].arn
   port              = 443
@@ -172,7 +172,7 @@ resource "aws_lb_listener" "demo" {
 }
 
 resource "aws_security_group" "alb_demo" {
-  count = var.deploy_demo ? 1 : 0
+  count = var.deploy_demo_app ? 1 : 0
 
   name        = "${local.demo_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout demo application"
