@@ -25,6 +25,11 @@ Network architecture:
 1. Controller only
 2. Controller + Datastore
 3. Controller + Datastore + Demo application (default)
+```
+    This can be achived with the folloiwng boolean variables:
+    deploy_datastore = true/false
+    deploy_demo_app = true/false
+```
 
 ## Level of infrastructure deployment
 1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
