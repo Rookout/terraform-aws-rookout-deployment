@@ -5,12 +5,16 @@ The module implements the following architecture:
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="791" height="416">
 
+Network architecture:
+
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Network.jpg" width="791" height="325">
+
 ### Prerequisites
 1. terraform installed
 2. AWS account inlcuding: AWS CLI installed.
     * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
     * Set profile if used non default profile. Run: `export AWS_PROFILE="<profile_name>"`
-3. [Optional] - remote state bucket and dyanmoDB lock. can be created with attached tf-bucked module.
+3. [Optional] - remote state bucket and dyanmoDB lock. can be created with attached tf-backend module.
 4. Create a secret in the secrets manager with your Rookout token using one of the following options:
     * AWS CLI - Change the <rookout_token> placeholder with your token and run:
        * `aws secretsmanager create-secret --name rookout-token --description "Rookout token" --secret-string "{\"rookout-token\":\"<rookout_token>\"}"`
@@ -23,9 +27,45 @@ The module implements the following architecture:
 3. Controller + Datastore + Demo application (default)
 
 ## Level of infrastructure deployment
-1. provided Domain (default)
-2. provided Domain + VPC and subnets
-3. provided Domain + VPC and subnets + ECS cluster
+1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
+```
+    Vanilla deployment, reconfigure the folowing variables to avoid CIDRs conflict:
+    environment = "ENV_NAME"
+    region = "YOUR_REGION"
+    domain_name = "YOUR_DOMAIN"
+
+    vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+    vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+
+```
+2. provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
+```
+    Configure the following variables:
+    environment = "ENV_NAME"
+    region = "YOUR_REGION"
+    domain_name = "YOUR_DOMAIN"
+
+    create_cluster = false
+    vpc_id = "<your's existing vpc id>"
+    vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+    vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+
+```
+3. provided Domain + VPC and subnets + ECS cluster ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc_and_cluster.tf))
+```
+    Configure the following variables: 
+    environment = "ENV_NAME"
+    region = "YOUR_REGION"
+    domain_name = "YOUR_DOMAIN"
+
+    create_cluster = false
+    vpc_id = "<your's vpc id>"
+    vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+    vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
+
+    create_cluster = false
+    cluster_name = "<your's existing cluster name>"
+```
 
 ## DNS
 To run this module, controller, datastore (optional) and demo application (optional) endpoint should be created. To accomplish that ALB will be deployed usign ACM and provided domain address. subdomain will be create in route53. if you don't use route53 as your's dns registry, please contect us for support.

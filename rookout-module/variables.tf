@@ -11,7 +11,6 @@ variable "region" {
 }
 
 ## DNS
-
 variable "domain_name" {
   type        = string
   default     = ""
