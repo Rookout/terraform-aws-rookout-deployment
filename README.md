@@ -7,7 +7,7 @@ The module implements the following architecture:
 
 Network architecture:
 
-<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Network.jpg" width="791" height="325">
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Plain_Network.jpg" width="791" height="325">
 
 ### Prerequisites
 1. terraform installed
