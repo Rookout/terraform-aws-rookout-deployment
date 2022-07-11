@@ -24,6 +24,6 @@ output "dynamodb_table" {
 }
 
 output "terraform_iam_policy" {
-  description = "The IAM Policy to access remote state environment."
+  description = "The IAM Role to access remote state environment."
   value       = module.remote_state.terraform_iam_policy
 }

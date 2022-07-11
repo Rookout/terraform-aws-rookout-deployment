@@ -15,16 +15,11 @@ Network architecture:
     * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
     * Set profile if used non default profile. Run: `export AWS_PROFILE="<profile_name>"`
 3. [Optional] - remote state bucket and dyanmoDB lock. can be created with attached tf-backend module.
-4. Create a secret in the secrets manager with your Rookout token using one of the following options:
-    * AWS CLI - Change the <rookout_token> placeholder with your token and run:
-       * `aws secretsmanager create-secret --name rookout-token --description "Rookout token" --secret-string "{\"rookout-token\":\"<rookout_token>\"}"`
-    * AWS Console - follow this [tutorial](https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html)
-    * If secret stored with other name name, please configure `rookout_token_arn` variable insted. 
-
+4. Get Rookout token, and pass it as variable to this module (rookout_token = "...")
 ## Level of rookout deployment
 1. Controller only
-2. Controller + Datastore
-3. Controller + Datastore + Demo application (default)
+2. Controller + Datastore (default)
+3. Controller + Datastore + Demo application 
 ```
     This can be configured with the folloiwng boolean variables:
     deploy_datastore = true/false
@@ -38,6 +33,7 @@ Network architecture:
     environment = "ENV_NAME"
     region = "YOUR_REGION"
     domain_name = "YOUR_DOMAIN"
+    rookout_token = "YOUR_TOKEN
 
     vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
     vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
@@ -49,6 +45,7 @@ Network architecture:
     environment = "ENV_NAME"
     region = "YOUR_REGION"
     domain_name = "YOUR_DOMAIN"
+    rookout_token = "YOUR_TOKEN
 
     create_cluster = false
     vpc_id = "<your's existing vpc id>"
@@ -62,6 +59,7 @@ Network architecture:
     environment = "ENV_NAME"
     region = "YOUR_REGION"
     domain_name = "YOUR_DOMAIN"
+    rookout_token = "YOUR_TOKEN
 
     create_cluster = false
     vpc_id = "<your's vpc id>"
@@ -81,6 +79,9 @@ controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) .
 datastore.PROVIDED_DOMAIN - url to the datastore, used with rookout client (web browser application).
 
 demo.PROVIDE_DOMAIN - flask demo application for debuging.  
+
+## Advanced usage
+custom_iam_task_exec_role_arn - variable can be used to overwrite the existing IAM Role
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -123,7 +124,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 | [aws_ecs_task_definition.controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_ecs_task_definition.datastore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_ecs_task_definition.demo](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
-| [aws_iam_policy.secret_manager_read](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.task_exec_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.task_exec_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_lb_listener.controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.datastore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
@@ -144,7 +145,6 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 | [aws_security_group.datastore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_ecs_cluster.provided](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecs_cluster) | data source |
 | [aws_route53_zone.selected](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
-| [aws_secretsmanager_secret.rookout_token](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 
 ## Inputs
 
@@ -153,18 +153,19 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | ECS cluster name, if we want to deploy to existing one | `string` | `""` | no |
 | <a name="input_create_cluster"></a> [create\_cluster](#input\_create\_cluster) | whether create a cluster or use existing one | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | # VPC variables. | `bool` | `true` | no |
+| <a name="input_custom_iam_task_exec_role_arn"></a> [custom\_iam\_task\_exec\_role\_arn](#input\_custom\_iam\_task\_exec\_role\_arn) | ECS execution IAM Role overwrite, please pass arn of existing IAM Role | `string` | `""` | no |
 | <a name="input_deploy_datastore"></a> [deploy\_datastore](#input\_deploy\_datastore) | (Optional) If true will deploy demo Rookout's datastore locally | `bool` | `true` | no |
-| <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `true` | no |
+| <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `false` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"demo"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Aws region | `string` | `"eu-west-1"` | no |
-| <a name="input_rookout_token_arn"></a> [rookout\_token\_arn](#input\_rookout\_token\_arn) | Manual injecting arn of rookout secret from secret manager | `string` | `""` | no |
+| <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
 | <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | Key of secret in secret manager | `string` | `"rookout-token"` | no |
 | <a name="input_vpc_avilability_zones"></a> [vpc\_avilability\_zones](#input\_vpc\_avilability\_zones) | n/a | `list(string)` | <pre>[<br>  "eu-west-1a",<br>  "eu-west-1b"<br>]</pre> | no |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"172.30.1.0/25"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC id should be passed only if create\_vpc = false | `string` | `""` | no |
-| <a name="input_vpc_private_subnets"></a> [vpc\_private\_subnets](#input\_vpc\_private\_subnets) | n/a | `list(string)` | <pre>[<br>  "10.0.0.0/27",<br>  "10.0.0.32/27"<br>]</pre> | no |
-| <a name="input_vpc_public_subnets"></a> [vpc\_public\_subnets](#input\_vpc\_public\_subnets) | n/a | `list(string)` | <pre>[<br>  "10.0.0.64/27",<br>  "10.0.0.128/27"<br>]</pre> | no |
+| <a name="input_vpc_private_subnets"></a> [vpc\_private\_subnets](#input\_vpc\_private\_subnets) | n/a | `list(string)` | <pre>[<br>  "172.30.1.0/27",<br>  "172.30.1.32/27"<br>]</pre> | no |
+| <a name="input_vpc_public_subnets"></a> [vpc\_public\_subnets](#input\_vpc\_public\_subnets) | n/a | `list(string)` | <pre>[<br>  "172.30.1.64/27",<br>  "172.30.1.96/27"<br>]</pre> | no |
 
 ## Outputs
 

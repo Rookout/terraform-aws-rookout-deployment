@@ -6,13 +6,12 @@ module "rookout" {
     domain_name = "YOUR_DOMAIN.com"
 
     deploy_datastore = true
-    deploy_demo_app = true
+    deploy_demo_app = false
 
     create_cluster = true
     cluster_name = ""
     
-    rookout_token_arn = ""
-    secret_key = "rookout-token"
+    rookout_token = "YOUR TOKEN"
 
     create_vpc = false
     vpc_id = "<your's vpc id>"

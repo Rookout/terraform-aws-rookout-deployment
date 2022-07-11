@@ -23,12 +23,10 @@
       {
         "name": "ROOKOUT_DOP_PORT",
         "value": "${port}"
-      }
-    ],
-    "secrets": [
+      },
       {
-        "name": "ROOKOUT_DOP_LOGGING_TOKEN",
-        "valueFrom": "${rookout_token_arn}"
+        "name": "ROOKOUT_TOKEN",
+        "value": "${rookout_token}"
       }
     ],
     "logConfiguration": {

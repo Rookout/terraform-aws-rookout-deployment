@@ -12,8 +12,12 @@ variable "region" {
 
 ## DNS
 variable "domain_name" {
-  type        = string
-  default     = ""
+  type    = string
+  default = ""
+  validation {
+    condition     = length(var.domain_name) > 0
+    error_message = "Domain not provided"
+  }
   description = "DNS domain which sub"
 }
 
@@ -40,14 +44,17 @@ variable "deploy_datastore" {
 }
 variable "deploy_demo_app" {
   type        = bool
-  default     = true
+  default     = false
   description = "(Optional) If true will deploy demo flask application to start debuging"
 }
 
-variable "rookout_token_arn" {
-  type        = string
-  default     = ""
-  description = "Manual injecting arn of rookout secret from secret manager"
+variable "rookout_token" {
+  type = string
+  validation {
+    condition     = length(var.rookout_token) == 64
+    error_message = "Rookout token have to be 64 characters in length"
+  }
+  description = "Rookout token"
 }
 
 variable "secret_key" {
@@ -70,7 +77,7 @@ variable "vpc_id" {
 
 variable "vpc_cidr" {
   type    = string
-  default = "10.0.0.0/16"
+  default = "172.30.1.0/25"
 }
 
 variable "vpc_avilability_zones" {
@@ -80,10 +87,18 @@ variable "vpc_avilability_zones" {
 
 variable "vpc_private_subnets" {
   type    = list(string)
-  default = ["10.0.0.0/27", "10.0.0.32/27"]
+  default = ["172.30.1.0/27", "172.30.1.32/27"]
 }
 
 variable "vpc_public_subnets" {
   type    = list(string)
-  default = ["10.0.0.64/27", "10.0.0.128/27"]
+  default = ["172.30.1.64/27", "172.30.1.96/27"]
 }
+
+## IAM ECS execution role
+variable "custom_iam_task_exec_role_arn" {
+  type        = string
+  default     = ""
+  description = "ECS execution IAM Role overwrite, please pass arn of existing IAM Role"
+}
+

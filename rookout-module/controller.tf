@@ -21,7 +21,7 @@ locals {
     log_group              = aws_cloudwatch_log_group.rookout.name
     log_stream             = aws_cloudwatch_log_stream.controller_log_stream.name
     aws_region             = var.region
-    rookout_token_arn      = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
+    rookout_token          = var.rookout_token
     controller_server_mode = "PLAIN"
     onprem_enabled         = var.deploy_datastore ? local.controller_settings.onprem_enabled : false
     dop_no_ssl_verify      = local.controller_settings.dop_no_ssl_verify
@@ -37,8 +37,8 @@ resource "aws_ecs_task_definition" "controller" {
   network_mode             = "awsvpc"
   cpu                      = local.controller_settings.task_cpu
   memory                   = local.controller_settings.task_memory
-  execution_role_arn       = aws_iam_role.task_exec_role.arn
-  task_role_arn            = aws_iam_role.task_exec_role.arn
+  execution_role_arn       = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
+  task_role_arn            = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   container_definitions    = local.controller_definition
 
 }
@@ -48,7 +48,7 @@ resource "aws_ecs_service" "controller" {
   name            = local.controller_settings.container_name
   cluster         = var.create_cluster ? aws_ecs_cluster.rookout[0].id : data.aws_ecs_cluster.provided[0].id
   task_definition = aws_ecs_task_definition.controller.arn
-  desired_count   = 1
+  desired_count   = 2
   launch_type     = "FARGATE"
   network_configuration {
     security_groups = [aws_security_group.controller.id]
@@ -89,9 +89,4 @@ resource "aws_security_group" "controller" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-}
-
-data "aws_secretsmanager_secret" "rookout_token" {
-  count = var.rookout_token_arn == "" ? 1 : 0
-  name  = "rookout-token"
 }

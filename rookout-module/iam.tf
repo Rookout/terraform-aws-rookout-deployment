@@ -1,7 +1,8 @@
 
 resource "aws_iam_role" "task_exec_role" {
+  count               = var.custom_iam_task_exec_role_arn == "" ? 1 : 0
   name                = "rookout-task-exec-role"
-  managed_policy_arns = [aws_iam_policy.secret_manager_read.arn]
+  managed_policy_arns = [aws_iam_policy.task_exec_role[0].arn]
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -17,29 +18,14 @@ resource "aws_iam_role" "task_exec_role" {
   })
 }
 
-
-resource "aws_iam_policy" "secret_manager_read" {
-  name = "secret-manager-get-secret"
-  path = "/"
+resource "aws_iam_policy" "task_exec_role" {
+  count = var.custom_iam_task_exec_role_arn == "" ? 1 : 0
+  name  = "secret-manager-get-secret"
+  path  = "/"
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "secretsmanager:GetResourcePolicy",
-          "secretsmanager:GetSecretValue",
-          "secretsmanager:DescribeSecret",
-          "secretsmanager:ListSecretVersionIds",
-          "secretsmanager:ListSecrets",
-          "kms:Decrypt"
-        ]
-        Resource = [
-          "*",
-          "arn:aws:secretsmanager:eu-west-1:032275105219:secret:rookout-token-WluvBl"
-        ]
-      },
       {
         Effect = "Allow"
         Action = [

@@ -27,12 +27,10 @@
       {
         "name": "ROOKOUT_ENFORCE_TOKEN",
         "value": "true"
-      }
-    ],
-    "secrets": [
+      },
       {
         "name": "ROOKOUT_TOKEN",
-        "valueFrom": "${rookout_token_arn}"
+        "value": "${rookout_token}"
       }
     ],
     "logConfiguration": {

@@ -11,18 +11,18 @@ locals {
   }
 
   demo_definition = templatefile(("${path.module}/templates/demo_application_task_def.tpl"), {
-    name              = local.demo_settings.container_name
-    cpu               = local.demo_settings.container_cpu
-    memory            = local.demo_settings.container_memory
-    port              = local.demo_settings.container_port
-    log_group         = aws_cloudwatch_log_group.demo[0].name
-    log_stream        = aws_cloudwatch_log_stream.demo_log_stream[0].name
-    aws_region        = var.region
-    controller_host   = "wss://${aws_route53_record.controller.fqdn}"
-    controller_port   = 443 #local.controller_settings.container_port
-    remote_origin     = "https://github.com/Rookout/tutorial-python.git"
-    commit            = "HEAD"
-    rookout_token_arn = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
+    name            = local.demo_settings.container_name
+    cpu             = local.demo_settings.container_cpu
+    memory          = local.demo_settings.container_memory
+    port            = local.demo_settings.container_port
+    log_group       = var.deploy_demo_app ? aws_cloudwatch_log_group.demo[0].name : ""
+    log_stream      = var.deploy_demo_app ? aws_cloudwatch_log_stream.demo_log_stream[0].name : ""
+    aws_region      = var.region
+    controller_host = "wss://${aws_route53_record.controller.fqdn}"
+    controller_port = 443 #local.controller_settings.container_port
+    remote_origin   = "https://github.com/Rookout/tutorial-python.git"
+    commit          = "HEAD"
+    rookout_token   = var.rookout_token
   })
 
 }
@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "demo" {
   network_mode             = "awsvpc"
   cpu                      = local.demo_settings.task_cpu
   memory                   = local.demo_settings.task_memory
-  execution_role_arn       = aws_iam_role.task_exec_role.arn
-  task_role_arn            = aws_iam_role.task_exec_role.arn
+  execution_role_arn       = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
+  task_role_arn            = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   container_definitions    = local.demo_definition
 
 }

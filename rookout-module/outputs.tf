@@ -4,7 +4,7 @@ output "controller_dns" {
 }
 
 output "controller_endpoint" {
-  value       = var.aws_alb.controller.dns_name
+  value       = aws_alb.controller.dns_name
   description = "Rookout's on-prem controller endpoint"
 }
 
@@ -14,17 +14,17 @@ output "datastore_dns" {
 }
 
 output "datastore_endpoint" {
-  value       = var.aws_alb.datastore.dns_name
+  value       = var.deploy_datastore ? aws_alb.datastore[0].dns_name : "Not Created"
   description = "Rookout's on-prem datastore endpoint"
 }
 
 output "demo_dns" {
-  value       = var.deploy_demo_app_app ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
+  value       = var.deploy_demo_app ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
   description = "Rookout's flask application DNS"
 }
 
 output "demo_endpoint" {
-  value       = var.aws_alb.demo.dns_name
+  value       = var.deploy_demo_app ? aws_alb.demo[0].dns_name : "Not Created"
   description = "Rookout's flask application endpoint"
 }
 

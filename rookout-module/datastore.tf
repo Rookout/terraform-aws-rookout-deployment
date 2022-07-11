@@ -22,7 +22,7 @@ locals {
     log_group              = aws_cloudwatch_log_group.rookout.name
     log_stream             = aws_cloudwatch_log_stream.datastore_log_stream[0].name
     aws_region             = var.region
-    rookout_token_arn      = var.rookout_token_arn == "" ? "${data.aws_secretsmanager_secret.rookout_token[0].arn}:${var.secret_key}::" : "${var.rookout_token_arn}:${var.secret_key}::"
+    rookout_token          = var.rookout_token
     datastore_server_mode  = "PLAIN"
     onprem_enabled         = local.datastore_settings.onprem_enabled
     dop_no_ssl_verify      = local.datastore_settings.dop_no_ssl_verify
@@ -39,8 +39,8 @@ resource "aws_ecs_task_definition" "datastore" {
   network_mode             = "awsvpc"
   cpu                      = local.datastore_settings.task_cpu
   memory                   = local.datastore_settings.task_memory
-  execution_role_arn       = aws_iam_role.task_exec_role.arn
-  task_role_arn            = aws_iam_role.task_exec_role.arn
+  execution_role_arn       = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
+  task_role_arn            = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   container_definitions    = local.datastore_definition
 
   ephemeral_storage {
