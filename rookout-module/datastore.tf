@@ -1,17 +1,17 @@
 locals {
-  datastore_settings = {
+  datastore_settings = { # TODO: configure
     container_name         = "rookout-datastore"
-    task_cpu               = 512
-    task_memory            = 1024
+    task_cpu               = var.datastore_resource.cpu
+    task_memory            = var.datastore_resource.memory
     onprem_enabled         = true
     dop_no_ssl_verify      = true
     server_mode            = "PLAIN"
-    container_cpu          = 256
-    container_memory       = 512
+    container_cpu          = var.datastore_resource.cpu
+    container_memory       = var.datastore_resource.memory
     container_port         = 8080
     load_balancer_port     = 8080
     storage_size           = 21
-    datastore_in_memory_db = false
+    datastore_in_memory_db = true
   }
 
   datastore_definition = templatefile(("${path.module}/templates/datastore_task_def.tpl"), {
@@ -21,7 +21,7 @@ locals {
     port                   = local.datastore_settings.container_port
     log_group              = aws_cloudwatch_log_group.rookout.name
     log_stream             = aws_cloudwatch_log_stream.datastore_log_stream[0].name
-    aws_region             = var.region
+    aws_region             = local.region
     rookout_token          = var.rookout_token
     datastore_server_mode  = "PLAIN"
     onprem_enabled         = local.datastore_settings.onprem_enabled
@@ -57,10 +57,14 @@ resource "aws_ecs_service" "datastore" {
   task_definition = aws_ecs_task_definition.datastore[0].arn
   desired_count   = 1
   launch_type     = "FARGATE"
-  load_balancer {
-    target_group_arn = aws_lb_target_group.datastore[0].arn
-    container_name   = local.datastore_settings.container_name
-    container_port   = local.datastore_settings.container_port
+  dynamic "load_balancer" {
+    for_each = var.deploy_alb || length(var.datastore_target_group_arn) > 0  ? [1] : [0]
+    content{
+      target_group_arn =  var.deploy_alb ? aws_lb_target_group.datastore[0].arn : var.datastore_target_group_arn
+      container_name   = local.datastore_settings.container_name
+      container_port   = local.datastore_settings.container_port
+    }
+    
   }
 
   network_configuration {

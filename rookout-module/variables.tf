@@ -1,13 +1,13 @@
 ##Global variables
 variable "environment" {
   type        = string
-  default     = "demo"
+  default     = "rookout"
   description = "Environment name"
 }
 variable "region" {
   type        = string
-  default     = "eu-west-1"
-  description = "Aws region"
+  default     = ""
+  description = "AWS region, using providers region as default"
 }
 
 ## DNS
@@ -48,6 +48,23 @@ variable "deploy_demo_app" {
   description = "(Optional) If true will deploy demo flask application to start debuging"
 }
 
+variable "controller_resource" {
+  type = map
+  default = {
+    cpu = 2048,
+    memory = 4096
+  }
+  description = "Rookout's onprem controller resource map"
+}
+
+variable "datastore_resource" {
+  type = map
+  default = {
+    cpu = 2048,
+    memory = 4096
+  }
+  description = "Rookout's onprem datastore resource map"
+}
 variable "rookout_token" {
   type = string
   validation {
@@ -102,3 +119,35 @@ variable "custom_iam_task_exec_role_arn" {
   description = "ECS execution IAM Role overwrite, please pass arn of existing IAM Role"
 }
 
+## ALB
+variable "deploy_alb"{
+  type = bool
+  default = true
+  description = "Radio button to not deploy ALB for ECS tasks, if false please provide target group for each" 
+}
+
+variable "controller_target_group_arn"{
+  type = string
+  default = ""
+  description = "Target group used by controller ECS tasks" 
+}
+
+
+
+variable "datastore_target_group_arn"{
+  type = string
+  default = ""
+  description = "Target group used by datastore ECS tasks" 
+}
+
+variable "demo_app_target_group_arn"{
+  type = string
+  default = ""
+  description = "Target group used by demo applicatino ECS tasks" 
+}
+
+variable "demo_app_controller_host" {
+  type = string
+  default = ""
+  description = "Host which the demo rook connect to controller using WebSocket"
+}

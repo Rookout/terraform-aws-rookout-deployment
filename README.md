@@ -83,6 +83,18 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging.
 ## Advanced usage
 custom_iam_task_exec_role_arn - variable can be used to overwrite the existing IAM Role
 
+deploy_alb - this variable set to false to disable the deployment of ALBs.
+If disabled, DNS subdomain and ACM certificate would not be generated too.
+following configuration should be set:
+```
+deploy_alb = false
+controller_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX"
+controller_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX" #if deploy_datastore=true
+controller_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX" #if deploy_demo_app=true
+```
+If target groups not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
+
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -144,6 +156,7 @@ custom_iam_task_exec_role_arn - variable can be used to overwrite the existing I
 | [aws_security_group.controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.datastore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_ecs_cluster.provided](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecs_cluster) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_route53_zone.selected](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
@@ -151,14 +164,21 @@ custom_iam_task_exec_role_arn - variable can be used to overwrite the existing I
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | ECS cluster name, if we want to deploy to existing one | `string` | `""` | no |
+| <a name="input_controller_resource"></a> [controller\_resource](#input\_controller\_resource) | Rookout's onprem controller resource map | `map` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
+| <a name="input_controller_target_group_arn"></a> [controller\_target\_group\_arn](#input\_controller\_target\_group\_arn) | Target group used by controller ECS tasks | `string` | `""` | no |
 | <a name="input_create_cluster"></a> [create\_cluster](#input\_create\_cluster) | whether create a cluster or use existing one | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | # VPC variables. | `bool` | `true` | no |
 | <a name="input_custom_iam_task_exec_role_arn"></a> [custom\_iam\_task\_exec\_role\_arn](#input\_custom\_iam\_task\_exec\_role\_arn) | ECS execution IAM Role overwrite, please pass arn of existing IAM Role | `string` | `""` | no |
+| <a name="input_datastore_resource"></a> [datastore\_resource](#input\_datastore\_resource) | Rookout's onprem datastore resource map | `map` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
+| <a name="input_datastore_target_group_arn"></a> [datastore\_target\_group\_arn](#input\_datastore\_target\_group\_arn) | Target group used by datastore ECS tasks | `string` | `""` | no |
+| <a name="input_demo_app_controller_host"></a> [demo\_app\_controller\_host](#input\_demo\_app\_controller\_host) | Host which the demo rook connect to controller using WebSocket | `string` | `""` | no |
+| <a name="input_demo_app_target_group_arn"></a> [demo\_app\_target\_group\_arn](#input\_demo\_app\_target\_group\_arn) | Target group used by demo applicatino ECS tasks | `string` | `""` | no |
+| <a name="input_deploy_alb"></a> [deploy\_alb](#input\_deploy\_alb) | Radio button to not deploy ALB for ECS tasks, if false please provide target group for each | `bool` | `true` | no |
 | <a name="input_deploy_datastore"></a> [deploy\_datastore](#input\_deploy\_datastore) | (Optional) If true will deploy demo Rookout's datastore locally | `bool` | `true` | no |
 | <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `false` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `""` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"demo"` | no |
-| <a name="input_region"></a> [region](#input\_region) | Aws region | `string` | `"eu-west-1"` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"rookout"` | no |
+| <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
 | <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | Key of secret in secret manager | `string` | `"rookout-token"` | no |
 | <a name="input_vpc_avilability_zones"></a> [vpc\_avilability\_zones](#input\_vpc\_avilability\_zones) | n/a | `list(string)` | <pre>[<br>  "eu-west-1a",<br>  "eu-west-1b"<br>]</pre> | no |

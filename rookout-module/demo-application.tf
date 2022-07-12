@@ -18,7 +18,7 @@ locals {
     log_group       = var.deploy_demo_app ? aws_cloudwatch_log_group.demo[0].name : ""
     log_stream      = var.deploy_demo_app ? aws_cloudwatch_log_stream.demo_log_stream[0].name : ""
     aws_region      = var.region
-    controller_host = "wss://${aws_route53_record.controller.fqdn}"
+    controller_host = var.deploy_alb ? "wss://${aws_route53_record.controller[0].fqdn}" : var.demo_app_controller_host
     controller_port = 443 #local.controller_settings.container_port
     remote_origin   = "https://github.com/Rookout/tutorial-python.git"
     commit          = "HEAD"
@@ -54,10 +54,14 @@ resource "aws_ecs_service" "demo" {
     security_groups = [aws_security_group.allow_demo[0].id]
     subnets         = var.create_vpc ? module.vpc[0].private_subnets : var.vpc_private_subnets
   }
-  load_balancer {
-    target_group_arn = aws_lb_target_group.demo[0].arn
-    container_name   = local.demo_settings.container_name
-    container_port   = local.demo_settings.container_port
+  dynamic "load_balancer" {
+    for_each = var.deploy_alb || length(var.demo_app_target_group_arn) > 0  ? [1] : [0]
+    content {
+      target_group_arn = var.deploy_alb ? aws_lb_target_group.demo[0].arn : var.demo_app_target_group_arn
+      container_name   = local.demo_settings.container_name
+      container_port   = local.demo_settings.container_port
+    }
+    
   }
 }
 

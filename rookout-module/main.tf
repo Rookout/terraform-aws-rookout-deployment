@@ -1,4 +1,6 @@
+data "aws_region" "current" {}
 locals {
+  region = var.region == "" ? data.aws_region.current.name : var.region
   tags = {
     terraform   = true
     Environment = var.environment

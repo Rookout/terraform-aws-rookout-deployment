@@ -1,8 +1,8 @@
 module "rookout" {
-    source = "./rookout-module"
+    source = "../rookout-module"
     
     environment = "demo"
-    region = "eu-west-1"
+    region = "YOUR REGION"
     domain_name = "YOUR_DOMAIN.com"
 
     deploy_datastore = true
@@ -11,7 +11,7 @@ module "rookout" {
     create_cluster = false
     cluster_name = "<your's existing cluster name>"
     
-    rookout_token_arn = ""
+    rookout_token = "YOUR TOKEN"
 
     create_vpc = false
     vpc_id = "<your's vpc id>"

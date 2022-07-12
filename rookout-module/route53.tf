@@ -1,28 +1,32 @@
 data "aws_route53_zone" "selected" {
+  count = var.deploy_alb ? 1 : 0
   name         = var.domain_name
   private_zone = false
 }
 
 resource "aws_route53_zone" "sub_domain" {
+  count = var.deploy_alb ? 1 : 0
   name    = "rookout.${var.domain_name}"
   comment = "rookout.${var.domain_name}"
 }
 
 resource "aws_route53_record" "rookout" {
+  count = var.deploy_alb ? 1 : 0
   allow_overwrite = true
-  zone_id         = data.aws_route53_zone.selected.zone_id
-  name            = "rookout.${data.aws_route53_zone.selected.name}"
+  zone_id         = data.aws_route53_zone.selected[0].zone_id
+  name            = "rookout.${data.aws_route53_zone.selected[0].name}"
   type            = "NS"
   ttl             = "172800"
-  records         = aws_route53_zone.sub_domain.name_servers
+  records         = aws_route53_zone.sub_domain[0].name_servers
 }
 
 module "acm" {
+  count = var.deploy_alb ? 1 : 0
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 3.0"
 
   domain_name = "rookout.${var.domain_name}"
-  zone_id     = aws_route53_zone.sub_domain.zone_id
+  zone_id     = aws_route53_zone.sub_domain[0].zone_id
 
   subject_alternative_names = [
     "datastore.rookout.${var.domain_name}",
@@ -35,21 +39,23 @@ module "acm" {
 }
 
 resource "aws_route53_record" "controller" {
-  zone_id = aws_route53_zone.sub_domain.id
+  count = var.deploy_alb ? 1 : 0
+
+  zone_id = aws_route53_zone.sub_domain[0].id
   name    = "controller.rookout.${var.domain_name}"
   type    = "A"
 
   alias {
-    name                   = aws_alb.controller.dns_name
-    zone_id                = aws_alb.controller.zone_id
+    name                   = aws_alb.controller[0].dns_name
+    zone_id                = aws_alb.controller[0].zone_id
     evaluate_target_health = true
   }
 }
 
 resource "aws_route53_record" "datastore" {
-  count = var.deploy_datastore ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
-  zone_id = aws_route53_zone.sub_domain.id
+  zone_id = aws_route53_zone.sub_domain[0].id
   name    = "datastore.rookout.${var.domain_name}"
   type    = "A"
 
@@ -61,8 +67,8 @@ resource "aws_route53_record" "datastore" {
 }
 
 resource "aws_route53_record" "demo" {
-  count   = var.deploy_demo_app ? 1 : 0
-  zone_id = aws_route53_zone.sub_domain.id
+  count   = var.deploy_demo_app && var.deploy_alb ? 1 : 0
+  zone_id = aws_route53_zone.sub_domain[0].id
   name    = "demo.rookout.${var.domain_name}"
   type    = "A"
 

@@ -1,10 +1,10 @@
 output "controller_dns" {
-  value       = "https://${aws_route53_record.controller.fqdn}"
+  value       = "https://${aws_route53_record.controller[0].fqdn}"
   description = "Rookout's on-prem controller dns"
 }
 
 output "controller_endpoint" {
-  value       = aws_alb.controller.dns_name
+  value       = aws_alb.controller[0].dns_name
   description = "Rookout's on-prem controller endpoint"
 }
 

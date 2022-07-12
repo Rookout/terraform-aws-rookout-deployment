@@ -3,16 +3,18 @@
 # Rookout controller ALB resources 
 ################################################################################
 resource "aws_alb" "controller" {
+  count = var.deploy_alb ? 1 : 0
 
   name               = "rookout-controller-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_controller.id]
+  security_groups    = [aws_security_group.alb_controller[0].id]
   subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
   tags               = local.tags
 }
 
 resource "aws_lb_target_group" "controller" {
+  count = var.deploy_alb ? 1 : 0
 
   name        = local.controller_settings.container_name
   port        = local.controller_settings.container_port
@@ -27,20 +29,22 @@ resource "aws_lb_target_group" "controller" {
 
 
 resource "aws_lb_listener" "controller" {
+  count = var.deploy_alb ? 1 : 0
 
-  load_balancer_arn = aws_alb.controller.arn
+  load_balancer_arn = aws_alb.controller[0].arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn   = module.acm.acm_certificate_arn
+  certificate_arn   = module.acm[0].acm_certificate_arn
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.controller.arn
+    target_group_arn = aws_lb_target_group.controller[0].arn
   }
 }
 
 resource "aws_security_group" "alb_controller" {
-
+  count = var.deploy_alb ? 1 : 0
+  
   name        = "${local.controller_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout controller"
   vpc_id      = module.vpc[0].vpc_id
@@ -67,7 +71,7 @@ resource "aws_security_group" "alb_controller" {
 
 
 resource "aws_alb" "datastore" {
-  count = var.deploy_datastore ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
   name               = "rookout-datastore-alb"
   internal           = false
@@ -77,7 +81,7 @@ resource "aws_alb" "datastore" {
   tags               = local.tags
 }
 resource "aws_lb_target_group" "datastore" {
-  count = var.deploy_datastore ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
   name        = local.datastore_settings.container_name
   port        = local.datastore_settings.container_port
@@ -91,12 +95,12 @@ resource "aws_lb_target_group" "datastore" {
 }
 
 resource "aws_lb_listener" "datastore" {
-  count = var.deploy_datastore ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
   load_balancer_arn = aws_alb.datastore[0].arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn   = module.acm.acm_certificate_arn
+  certificate_arn   = module.acm[0].acm_certificate_arn
 
   default_action {
     type             = "forward"
@@ -105,7 +109,7 @@ resource "aws_lb_listener" "datastore" {
 }
 
 resource "aws_security_group" "alb_datastore" {
-  count = var.deploy_datastore ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
   name        = "${local.datastore_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout datastore"
@@ -132,7 +136,7 @@ resource "aws_security_group" "alb_datastore" {
 ################################################################################
 
 resource "aws_alb" "demo" {
-  count = var.deploy_demo_app ? 1 : 0
+  count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
   name               = "rookout-demo-alb"
   internal           = false
@@ -143,7 +147,7 @@ resource "aws_alb" "demo" {
 }
 
 resource "aws_lb_target_group" "demo" {
-  count = var.deploy_demo_app ? 1 : 0
+  count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
   name        = local.demo_settings.container_name
   port        = local.demo_settings.container_port
@@ -158,12 +162,12 @@ resource "aws_lb_target_group" "demo" {
 
 
 resource "aws_lb_listener" "demo" {
-  count = var.deploy_demo_app ? 1 : 0
+  count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
   load_balancer_arn = aws_alb.demo[0].arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn   = module.acm.acm_certificate_arn
+  certificate_arn   = module.acm[0].acm_certificate_arn
 
   default_action {
     type             = "forward"
@@ -172,7 +176,7 @@ resource "aws_lb_listener" "demo" {
 }
 
 resource "aws_security_group" "alb_demo" {
-  count = var.deploy_demo_app ? 1 : 0
+  count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
   name        = "${local.demo_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout demo application"

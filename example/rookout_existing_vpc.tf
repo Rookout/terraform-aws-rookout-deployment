@@ -1,8 +1,8 @@
 module "rookout" {
-    source = "./rookout-module"
+    source = "../rookout-module"
     
     environment = "demo"
-    region = "eu-west-1"
+    region = "YOUR REGION"
     domain_name = "YOUR_DOMAIN.com"
 
     deploy_datastore = true
