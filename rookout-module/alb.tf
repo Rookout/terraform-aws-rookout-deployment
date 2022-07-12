@@ -44,7 +44,7 @@ resource "aws_lb_listener" "controller" {
 
 resource "aws_security_group" "alb_controller" {
   count = var.deploy_alb ? 1 : 0
-  
+
   name        = "${local.controller_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout controller"
   vpc_id      = module.vpc[0].vpc_id

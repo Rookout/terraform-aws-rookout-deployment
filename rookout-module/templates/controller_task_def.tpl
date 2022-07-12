@@ -32,6 +32,12 @@
         "name": "ROOKOUT_TOKEN",
         "value": "${rookout_token}"
       }
+%{for key, value in additional_env_vars}
+      ,{
+        "name": "${key}",
+        "value": "${value}"
+      }
+%{endfor ~}
     ],
     "logConfiguration": {
         "logDriver": "awslogs",

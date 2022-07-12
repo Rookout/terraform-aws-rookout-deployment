@@ -49,18 +49,18 @@ variable "deploy_demo_app" {
 }
 
 variable "controller_resource" {
-  type = map
+  type = map(any)
   default = {
-    cpu = 2048,
+    cpu    = 2048,
     memory = 4096
   }
   description = "Rookout's onprem controller resource map"
 }
 
 variable "datastore_resource" {
-  type = map
+  type = map(any)
   default = {
-    cpu = 2048,
+    cpu    = 2048,
     memory = 4096
   }
   description = "Rookout's onprem datastore resource map"
@@ -120,34 +120,54 @@ variable "custom_iam_task_exec_role_arn" {
 }
 
 ## ALB
-variable "deploy_alb"{
-  type = bool
-  default = true
-  description = "Radio button to not deploy ALB for ECS tasks, if false please provide target group for each" 
+variable "deploy_alb" {
+  type        = bool
+  default     = true
+  description = "Radio button to not deploy ALB for ECS tasks, if false please provide target group for each"
 }
 
-variable "controller_target_group_arn"{
-  type = string
-  default = ""
-  description = "Target group used by controller ECS tasks" 
+variable "controller_target_group_arn" {
+  type        = string
+  default     = ""
+  description = "Target group used by controller ECS tasks"
 }
 
-
-
-variable "datastore_target_group_arn"{
-  type = string
-  default = ""
-  description = "Target group used by datastore ECS tasks" 
+variable "datastore_target_group_arn" {
+  type        = string
+  default     = ""
+  description = "Target group used by datastore ECS tasks"
 }
 
-variable "demo_app_target_group_arn"{
-  type = string
-  default = ""
-  description = "Target group used by demo applicatino ECS tasks" 
+variable "demo_app_target_group_arn" {
+  type        = string
+  default     = ""
+  description = "Target group used by demo applicatino ECS tasks"
 }
 
 variable "demo_app_controller_host" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "Host which the demo rook connect to controller using WebSocket"
+}
+
+## ENV vars
+# {
+#     "EXAMPLE_ENV" = "changethisvalue"
+# }
+variable "additional_controller_env_vars" {
+  type        = any
+  description = "Additional env variables of contorller, configure as map of key=values"
+  default     = {}
+}
+
+variable "additional_datastore_env_vars" {
+  type        = any
+  description = "Additional env variables of contorller, configure as map of key=values"
+  default     = {}
+}
+
+variable "additional_demo_app_env_vars" {
+  type        = any
+  description = "Additional env variables of contorller, configure as map of key=values"
+  default     = {}
 }

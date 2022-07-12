@@ -27,6 +27,7 @@ locals {
     onprem_enabled         = local.datastore_settings.onprem_enabled
     dop_no_ssl_verify      = local.datastore_settings.dop_no_ssl_verify
     datastore_in_memory_db = local.datastore_settings.datastore_in_memory_db
+    additional_env_vars    = var.additional_datastore_env_vars
   })
 
 }
@@ -58,13 +59,13 @@ resource "aws_ecs_service" "datastore" {
   desired_count   = 1
   launch_type     = "FARGATE"
   dynamic "load_balancer" {
-    for_each = var.deploy_alb || length(var.datastore_target_group_arn) > 0  ? [1] : [0]
-    content{
-      target_group_arn =  var.deploy_alb ? aws_lb_target_group.datastore[0].arn : var.datastore_target_group_arn
+    for_each = var.deploy_alb || length(var.datastore_target_group_arn) > 0 ? [1] : [0]
+    content {
+      target_group_arn = var.deploy_alb ? aws_lb_target_group.datastore[0].arn : var.datastore_target_group_arn
       container_name   = local.datastore_settings.container_name
       container_port   = local.datastore_settings.container_port
     }
-    
+
   }
 
   network_configuration {

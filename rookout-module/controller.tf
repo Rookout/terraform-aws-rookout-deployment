@@ -25,6 +25,7 @@ locals {
     controller_server_mode = "PLAIN"
     onprem_enabled         = var.deploy_datastore ? local.controller_settings.onprem_enabled : false
     dop_no_ssl_verify      = local.controller_settings.dop_no_ssl_verify
+    additional_env_vars    = var.additional_controller_env_vars
   })
 
 }
@@ -55,13 +56,13 @@ resource "aws_ecs_service" "controller" {
     subnets         = var.create_vpc ? module.vpc[0].private_subnets : var.vpc_private_subnets
   }
   dynamic "load_balancer" {
-    for_each = var.deploy_alb || length(var.controller_target_group_arn) > 0  ? [1] : [0]
-    content{
+    for_each = var.deploy_alb || length(var.controller_target_group_arn) > 0 ? [1] : [0]
+    content {
       target_group_arn = var.deploy_alb ? aws_lb_target_group.controller[0].arn : var.controller_target_group_arn
       container_name   = local.controller_settings.container_name
       container_port   = local.controller_settings.container_port
     }
-      
+
   }
 }
 
