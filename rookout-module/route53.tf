@@ -1,17 +1,17 @@
 data "aws_route53_zone" "selected" {
-  count        = var.deploy_alb ? 1 : 0
+  count        = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   name         = var.domain_name
   private_zone = false
 }
 
 resource "aws_route53_zone" "sub_domain" {
-  count   = var.deploy_alb ? 1 : 0
+  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   name    = "rookout.${var.domain_name}"
   comment = "rookout.${var.domain_name}"
 }
 
 resource "aws_route53_record" "rookout" {
-  count           = var.deploy_alb ? 1 : 0
+  count           = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   allow_overwrite = true
   zone_id         = data.aws_route53_zone.selected[0].zone_id
   name            = "rookout.${data.aws_route53_zone.selected[0].name}"
@@ -21,7 +21,7 @@ resource "aws_route53_record" "rookout" {
 }
 
 module "acm" {
-  count   = var.deploy_alb ? 1 : 0
+  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 3.0"
 
@@ -39,7 +39,7 @@ module "acm" {
 }
 
 resource "aws_route53_record" "controller" {
-  count = var.deploy_alb ? 1 : 0
+  count = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
 
   zone_id = aws_route53_zone.sub_domain[0].id
   name    = "controller.rookout.${var.domain_name}"
@@ -53,7 +53,7 @@ resource "aws_route53_record" "controller" {
 }
 
 resource "aws_route53_record" "datastore" {
-  count = var.deploy_datastore && var.deploy_alb ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
 
   zone_id = aws_route53_zone.sub_domain[0].id
   name    = "datastore.rookout.${var.domain_name}"
@@ -67,7 +67,7 @@ resource "aws_route53_record" "datastore" {
 }
 
 resource "aws_route53_record" "demo" {
-  count   = var.deploy_demo_app && var.deploy_alb ? 1 : 0
+  count   = var.deploy_demo_app && var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   zone_id = aws_route53_zone.sub_domain[0].id
   name    = "demo.rookout.${var.domain_name}"
   type    = "A"

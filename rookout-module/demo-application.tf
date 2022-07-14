@@ -4,7 +4,7 @@ locals {
     container_name     = "rookout-tutorial-python"
     task_cpu           = 512
     task_memory        = 1024
-    container_cpu      = 256
+    container_cpu      = 512
     container_memory   = 512
     container_port     = 5000
     load_balancer_port = 443
@@ -17,9 +17,9 @@ locals {
     port                = local.demo_settings.container_port
     log_group           = var.deploy_demo_app ? aws_cloudwatch_log_group.demo[0].name : ""
     log_stream          = var.deploy_demo_app ? aws_cloudwatch_log_stream.demo_log_stream[0].name : ""
-    aws_region          = var.region
-    controller_host     = var.deploy_alb ? "wss://${aws_route53_record.controller[0].fqdn}" : var.demo_app_controller_host
-    controller_port     = 443 #local.controller_settings.container_port
+    aws_region          = local.region
+    controller_host     = var.deploy_alb ? var.datastore_acm_certificate_arn == "" ? "wss://${aws_route53_record.controller[0].fqdn}" : var.controller_acm_certificate_arn == "" ? "ws://${aws_alb.controller[0].dns_name}" : "wss://${aws_alb.controller[0].dns_name}" : var.demo_app_controller_host
+    controller_port     = var.datastore_acm_certificate_arn != ""  && var.controller_acm_certificate_arn == "" ? 80 : 443
     remote_origin       = "https://github.com/Rookout/tutorial-python.git"
     commit              = "HEAD"
     rookout_token       = var.rookout_token
@@ -70,7 +70,7 @@ resource "aws_ecs_service" "demo" {
 resource "aws_cloudwatch_log_stream" "demo_log_stream" {
   count          = var.deploy_demo_app ? 1 : 0
   name           = "demo"
-  log_group_name = aws_cloudwatch_log_group.rookout.name
+  log_group_name = aws_cloudwatch_log_group.demo[0].name
 }
 
 

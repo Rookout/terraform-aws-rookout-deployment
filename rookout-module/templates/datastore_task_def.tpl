@@ -47,7 +47,7 @@
         "retries": 3,
         "command": [
             "CMD-SHELL",
-            "wget http://localhost:8080/healthz -O /dev/null || exit 1"
+            "wget http://localhost:4009/healthz -O /dev/null || exit 1"
         ],
         "timeout": 5,
         "interval": 30,

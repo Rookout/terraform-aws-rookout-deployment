@@ -1,5 +1,5 @@
 output "controller_dns" {
-  value       = "https://${aws_route53_record.controller[0].fqdn}"
+  value       = var.datastore_acm_certificate_arn != "" &&  var.controller_acm_certificate_arn == "" ? "Not Created" : var.controller_acm_certificate_arn == "" ? "https://${aws_route53_record.controller[0].fqdn}" : "Please create CNAME record to endpoint with assosiated domain of certificate provided"
   description = "Rookout's on-prem controller dns"
 }
 
@@ -9,7 +9,7 @@ output "controller_endpoint" {
 }
 
 output "datastore_dns" {
-  value       = var.deploy_datastore ? "https://${aws_route53_record.datastore[0].fqdn}" : "Not Created"
+  value       = var.deploy_datastore && var.domain_name != "" ? "https://${aws_route53_record.datastore[0].fqdn}" : var.datastore_acm_certificate_arn == "" ? "Not Created" : "Please create CNAME record to endpoint with assosiated domain of certificate provided"
   description = "Rookout's on-prem datastore DNS"
 }
 
@@ -19,7 +19,7 @@ output "datastore_endpoint" {
 }
 
 output "demo_dns" {
-  value       = var.deploy_demo_app ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
+  value       = var.deploy_demo_app && var.domain_name != "" ? "https://${aws_route53_record.demo[0].fqdn}" : "Not Created"
   description = "Rookout's flask application DNS"
 }
 

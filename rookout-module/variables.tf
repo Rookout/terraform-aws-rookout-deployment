@@ -14,10 +14,10 @@ variable "region" {
 variable "domain_name" {
   type    = string
   default = ""
-  validation {
-    condition     = length(var.domain_name) > 0
-    error_message = "Domain not provided"
-  }
+  # validation {
+  #   condition     = length(var.domain_name) > 0
+  #   error_message = "Domain not provided"
+  # }
   description = "DNS domain which sub"
 }
 
@@ -170,4 +170,17 @@ variable "additional_demo_app_env_vars" {
   type        = any
   description = "Additional env variables of contorller, configure as map of key=values"
   default     = {}
+}
+
+## Self managed ACM certificates
+variable "datastore_acm_certificate_arn" {
+  type = string
+  default = ""
+  description = "ARN of pre-imported SSL certificate to ACM for Rookouts datastore public access"
+}
+
+variable "controller_acm_certificate_arn" {
+  type = string
+  default = ""
+  description = "ARN of pre-imported SSL certificate to ACM for Rookouts controller public access, if datastore ACM provided controller alb will be internal"
 }
