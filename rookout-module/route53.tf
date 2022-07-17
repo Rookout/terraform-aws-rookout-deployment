@@ -39,7 +39,7 @@ module "acm" {
 }
 
 resource "aws_route53_record" "controller" {
-  count = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
+  count = var.deploy_alb && var.datastore_acm_certificate_arn == "" && !var.internal_controller_alb ? 1 : 0
 
   zone_id = aws_route53_zone.sub_domain[0].id
   name    = "controller.rookout.${var.domain_name}"

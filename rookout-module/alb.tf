@@ -6,7 +6,7 @@ resource "aws_alb" "controller" {
   count = var.deploy_alb ? 1 : 0
 
   name               = "rookout-controller-alb"
-  internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? true : false
+  internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? true : false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_controller[0].id]
   subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
@@ -32,9 +32,9 @@ resource "aws_lb_listener" "controller" {
   count = var.deploy_alb ? 1 : 0
 
   load_balancer_arn = aws_alb.controller[0].arn
-  port              = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? 80 : 443
-  protocol          = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? "HTTP" : "HTTPS"
-  certificate_arn   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? "" : var.controller_acm_certificate_arn == "" ? module.acm[0].acm_certificate_arn : var.controller_acm_certificate_arn
+  port              = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
+  protocol          = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "HTTP" : "HTTPS"
+  certificate_arn   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "" : var.controller_acm_certificate_arn == "" ? module.acm[0].acm_certificate_arn : var.controller_acm_certificate_arn
 
   default_action {
     type             = "forward"
@@ -50,8 +50,8 @@ resource "aws_security_group" "alb_controller" {
   vpc_id      = module.vpc[0].vpc_id
   ingress {
     description = "Inbound from IGW to controller"
-    from_port   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? 80 : 443
-    to_port     = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? 80 : 443
+    from_port   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
+    to_port     = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

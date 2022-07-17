@@ -1,5 +1,5 @@
 output "controller_dns" {
-  value       = var.datastore_acm_certificate_arn != "" &&  var.controller_acm_certificate_arn == "" ? "Not Created" : var.controller_acm_certificate_arn == "" ? "https://${aws_route53_record.controller[0].fqdn}" : "Please create CNAME record to endpoint with assosiated domain of certificate provided"
+  value       = var.datastore_acm_certificate_arn != "" &&  var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "Not Created" : var.controller_acm_certificate_arn == "" ? "https://${aws_route53_record.controller[0].fqdn}" : "Please create CNAME record to endpoint with assosiated domain of certificate provided"
   description = "Rookout's on-prem controller dns"
 }
 

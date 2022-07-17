@@ -27,11 +27,23 @@ Network architecture:
 ```
 
 ## Level of infrastructure deployment
+
+For your's convenience, there are two deployment matrixs:
+
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_1.jpg" width="900">
+
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_2.jpg" width="900">
+
 1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
 ```
-    Vanilla deployment, reconfigure the folowing variables to avoid CIDRs conflict:
     domain_name = "YOUR_DOMAIN"
-    rookout_token = "YOUR_TOKEN
+    rookout_token = "YOUR_TOKEN"
+```
+2. provided Domain (default) with internal controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
+```
+    domain_name = "YOUR_DOMAIN"
+    rookout_token = "YOUR_TOKEN"
+    internal_controller_alb = true
 ```
 2. provided ACM certificate for datastore ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore.tf))
 
@@ -190,6 +202,7 @@ If target groups not passed, the loadbalancer configuration block in task defeni
 | <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `false` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"rookout"` | no |
+| <a name="input_internal_controller_alb"></a> [internal\_controller\_alb](#input\_internal\_controller\_alb) | If domain provided, switching in on will make controller be reachable internaly only | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
 | <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | Key of secret in secret manager | `string` | `"rookout-token"` | no |

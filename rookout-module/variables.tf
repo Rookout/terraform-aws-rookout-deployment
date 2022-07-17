@@ -150,6 +150,12 @@ variable "demo_app_controller_host" {
   description = "Host which the demo rook connect to controller using WebSocket"
 }
 
+variable "internal_controller_alb" {
+  type = bool
+  default = false
+  description = "If domain provided, switching in on will make controller be reachable internaly only"
+}
+
 ## ENV vars
 # {
 #     "EXAMPLE_ENV" = "changethisvalue"

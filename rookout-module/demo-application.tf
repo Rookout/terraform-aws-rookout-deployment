@@ -18,8 +18,8 @@ locals {
     log_group           = var.deploy_demo_app ? aws_cloudwatch_log_group.demo[0].name : ""
     log_stream          = var.deploy_demo_app ? aws_cloudwatch_log_stream.demo_log_stream[0].name : ""
     aws_region          = local.region
-    controller_host     = var.deploy_alb ? var.datastore_acm_certificate_arn == "" ? "wss://${aws_route53_record.controller[0].fqdn}" : var.controller_acm_certificate_arn == "" ? "ws://${aws_alb.controller[0].dns_name}" : "wss://${aws_alb.controller[0].dns_name}" : var.demo_app_controller_host
-    controller_port     = var.datastore_acm_certificate_arn != ""  && var.controller_acm_certificate_arn == "" ? 80 : 443
+    controller_host     = var.deploy_alb ? var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "ws://${aws_alb.controller[0].dns_name}" : "wss://${aws_alb.controller[0].dns_name}"  : var.demo_app_controller_host
+    controller_port     = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
     remote_origin       = "https://github.com/Rookout/tutorial-python.git"
     commit              = "HEAD"
     rookout_token       = var.rookout_token
