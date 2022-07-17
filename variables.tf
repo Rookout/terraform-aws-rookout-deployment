@@ -145,8 +145,8 @@ variable "demo_app_controller_host" {
 }
 
 variable "internal_controller_alb" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "If domain provided, switching in on will make controller be reachable internaly only"
 }
 
@@ -174,13 +174,13 @@ variable "additional_demo_app_env_vars" {
 
 ## Self managed ACM certificates
 variable "datastore_acm_certificate_arn" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "ARN of pre-imported SSL certificate to ACM for Rookouts datastore public access"
 }
 
 variable "controller_acm_certificate_arn" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "ARN of pre-imported SSL certificate to ACM for Rookouts controller public access, if datastore ACM provided controller alb will be internal"
 }
