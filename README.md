@@ -205,7 +205,6 @@ If target groups not passed, the loadbalancer configuration block in task defeni
 | <a name="input_internal_controller_alb"></a> [internal\_controller\_alb](#input\_internal\_controller\_alb) | If domain provided, switching in on will make controller be reachable internaly only | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
-| <a name="input_secret_key"></a> [secret\_key](#input\_secret\_key) | Key of secret in secret manager | `string` | `"rookout-token"` | no |
 | <a name="input_vpc_avilability_zones"></a> [vpc\_avilability\_zones](#input\_vpc\_avilability\_zones) | n/a | `list(string)` | <pre>[<br>  "eu-west-1a",<br>  "eu-west-1b"<br>]</pre> | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"172.30.1.0/25"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC id should be passed only if create\_vpc = false | `string` | `""` | no |
