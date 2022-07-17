@@ -28,24 +28,24 @@ Network architecture (default deployment):
 
 ## Level of infrastructure deployment
 
-For your's convenience, there are two deployment matrixs:
+The following variable combination are deployment options. each variable combination will change the network architecture of the components.
 
-<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_1.jpg" width="900">
-
-<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_2.jpg" width="900">
+For deployments that domain_name (1,2) provided, controller, datastore (optional) and demo application (optional) endpoint will be created by this module. To accomplish that ALB will be deployed usging ACM and provided domain address. subdomain will be create in route53 and SN record will be created in domain's public hosted zone. if you don't use route53 as your's dns registry, please contect us for support of SN record creation using this module.
 
 1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
 ```
     domain_name = "YOUR_DOMAIN"
     rookout_token = "YOUR_TOKEN"
 ```
-2. provided Domain with internal controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
+2. provided Domain with internal ALB controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
+
+This deployment used when traffic to controller within the VPC or with associated one.
 ```
     domain_name = "YOUR_DOMAIN"
     rookout_token = "YOUR_TOKEN"
     internal_controller_alb = true
 ```
-2. provided ACM certificate for datastore ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore.tf))
+3. provided ACM certificate for datastore ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore.tf))
 
 This deployment will use pre-imported arn of certificate in ACM ( needed Body, private key and chain of certificate ).
 certificate will be used by datastore, therefore CNAME record of certificate's domain should be recored at your's DNS provider with datstore endpoint (output of the module).
@@ -54,9 +54,11 @@ controller will be deployed with internal load balancer and can be reached from 
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     rookout_token = "YOUR_TOKEN"
 ```
-3. provided ACM certificate for datastore and controller (for internet-facing controller) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore_controller.tf))
+
+4. provided ACM certificate for datastore and controller (for internet-facing controller) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore_controller.tf))
 
 Same is second deployment but, the controller is internet facing too. same procedure of CNAME record registration should be preformed for datastore and controller endpoints that match to their certificate's domain.
+
 ```
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     controller_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
@@ -65,19 +67,43 @@ Same is second deployment but, the controller is internet facing too. same proce
     to configure demo application to adress right address of controller configure with your's CNAME record:
     demo_app_controller_host = "YOUR_CONTROLLER_CNAME"
 ```
-4. provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
+
+## Deplyment matrixes
+
+The following matrixes demonsrate application's components network mode by key variables. HTTP means internal traffic and ALB and TLS means external secured traffic with ALB.
+
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_1.jpg" width="900">
+
+<img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_2.jpg" width="900">
+
+## Endpoints
+controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) when DNS provided.
+
+datastore.PROVIDED_DOMAIN - url to the datastore, used with rookout client (web browser application) when DNS provided.
+
+demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
+
+## Advanced usage
+provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
+
+This deployment will use provided VPC with your's application within. any of 1-4 deployment combination can be used for that deployment.
+
 ```
     Configure the following variables:
     domain_name = "YOUR_DOMAIN"
     rookout_token = "YOUR_TOKEN
 
-    create_cluster = false
+    create_cluster = true
     vpc_id = "<your's existing vpc id>"
     vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
     vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
 
 ```
-5. provided Domain + VPC and subnets + ECS cluster ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc_and_cluster.tf))
+---
+provided Domain + VPC and subnets + ECS cluster ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc_and_cluster.tf))
+
+This deployment will use provided VPC and ECS cluster with your's application within. any of 1-4 deployment combination can be used for that deployment.
+
 ```
     Configure the following variables: 
     domain_name = "YOUR_DOMAIN"
@@ -92,18 +118,11 @@ Same is second deployment but, the controller is internet facing too. same proce
     cluster_name = "<your's existing cluster name>"
 ```
 
-## DNS
-To run this module, controller, datastore (optional) and demo application (optional) endpoint should be created. To accomplish that ALB will be deployed usign ACM and provided domain address. subdomain will be create in route53. if you don't use route53 as your's dns registry, please contect us for support.
+---
 
-## Endpoints
-controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) .
-
-datastore.PROVIDED_DOMAIN - url to the datastore, used with rookout client (web browser application).
-
-demo.PROVIDE_DOMAIN - flask demo application for debuging.  
-
-## Advanced usage
 custom_iam_task_exec_role_arn - variable can be used to overwrite the existing IAM Role
+
+---
 
 deploy_alb - this variable set to false to disable the deployment of ALBs.
 If disabled, DNS subdomain and ACM certificate would not be generated too.
