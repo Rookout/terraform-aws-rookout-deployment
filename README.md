@@ -1,11 +1,11 @@
 ## Deploy Rookout on AWS ECS Fargate Cluster using Terraform
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
-The module implements the following architecture:
+The module implements the following architecture (default deployment):
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="900">
 
-Network architecture:
+Network architecture (default deployment):
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Plain_Network.jpg" width="900">
 
@@ -130,7 +130,7 @@ If target groups not passed, the loadbalancer configuration block in task defeni
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
 
 ## Modules
 
