@@ -61,6 +61,9 @@ Same is second deployment but, the controller is internet facing too. same proce
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     controller_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     rookout_token = "YOUR_TOKEN"
+
+    to configure demo application to adress right address of controller configure with your's CNAME record:
+    demo_app_controller_host = "YOUR_CONTROLLER_CNAME"
 ```
 4. provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
 ```
