@@ -9,7 +9,7 @@ Network architecture (default deployment):
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Plain_Network.jpg" width="900">
 
-### Prerequisites
+### Prerequisites 
 1. terraform installed
 2. AWS account inlcuding: AWS CLI installed.
     * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
