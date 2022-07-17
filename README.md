@@ -39,7 +39,7 @@ For your's convenience, there are two deployment matrixs:
     domain_name = "YOUR_DOMAIN"
     rookout_token = "YOUR_TOKEN"
 ```
-2. provided Domain (default) with internal controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
+2. provided Domain with internal controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
 ```
     domain_name = "YOUR_DOMAIN"
     rookout_token = "YOUR_TOKEN"

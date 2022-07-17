@@ -74,12 +74,6 @@ variable "rookout_token" {
   description = "Rookout token"
 }
 
-variable "secret_key" {
-  type        = string
-  default     = "rookout-token"
-  description = "Key of secret in secret manager"
-}
-
 ## VPC variables. 
 variable "create_vpc" {
   type    = bool
