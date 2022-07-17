@@ -1,5 +1,5 @@
 module "rookout" {
-    source = "../rookout-module"
+    source = "rookout/aws-deployment"
     
     environment = "rookout"
     region = "YOUR REGION" # will use provider region if not provided
