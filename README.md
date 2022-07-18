@@ -87,39 +87,29 @@ The following matrixes demonsrate application's components network mode by key v
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Dep_Matrix_2.jpg" width="900">
 
 ## Endpoints
+
 controller.PROVIDED_DOMAIN - url of the controller, used for SDK (rooks) when DNS provided.
 
 datastore.PROVIDED_DOMAIN - url to the datastore, used with rookout client (web browser application) when DNS provided.
 
 demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 
-## Advanced usage
-* provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
+## Advanced configuration
 
-    This deployment will use provided VPC with your's application within. any of 1-4 deployment combination can be used for that deployment.
+* Provided Domain + VPC and subnets ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc.tf))
 
+    You can configure the module to use an existing VPC (where your application is running) using the following variables:
     ```
-        Configure the following variables:
-        domain_name = "YOUR_DOMAIN"
-        rookout_token = "YOUR_TOKEN
-
-        create_cluster = true
         vpc_id = "<your's existing vpc id>"
         vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
         vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
 
     ```
 
-* provided Domain + VPC and subnets + ECS cluster ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc_and_cluster.tf))
+* Provided Domain + VPC and subnets + ECS cluster ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_existing_vpc_and_cluster.tf))
 
-    This deployment will use provided VPC and ECS cluster with your's application within. any of 1-4 deployment combination can be used for that deployment.
-
+    You can configure the module to use an existing VPC and ECS cluster (where your application is running) using the following variables:
     ```
-        Configure the following variables: 
-        domain_name = "YOUR_DOMAIN"
-        rookout_token = "YOUR_TOKEN
-
-        create_cluster = false
         vpc_id = "<your's vpc id>"
         vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
         vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
@@ -128,18 +118,18 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
         cluster_name = "<your's existing cluster name>"
     ```
 
-* custom_iam_task_exec_role_arn - variable can be used to overwrite the existing IAM Role
+* custom_iam_task_exec_role_arn - This variable can be used to overwrite the existing IAM Role of ECS tasks execution
 
-* deploy_alb - this variable set to false to disable the deployment of ALBs.
-    If disabled, DNS subdomain and ACM certificate would not be generated too.
-    following configuration should be set:
+* deploy_alb - This variable can be set to false to disable the deployment of ALBs.
+    If disabled, DNS subdomain and ACM certificate will not be generated.
+    In this case, the following configuration should be set:
     ```
     deploy_alb = false
     controller_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX"
     datastore_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX" #if deploy_datastore=true
     demo_app_target_group_arn = "arn:aws:elasticloadbalancing:AWS_REGION:ACCOUNT_ID:ARN_SUFFIX" #if deploy_demo_app=true
     ```
-    If target groups not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
+    If target groups are not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
 
 
 <!-- BEGIN_TF_DOCS -->
