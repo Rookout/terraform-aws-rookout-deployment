@@ -16,19 +16,23 @@ Network architecture (default deployment):
     * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
     * Set profile if used non default profile. Run: `export AWS_PROFILE="<profile_name>"`
 3. Create a `provider.tf` file ([reference](https://www.terraform.io/language/providers/configuration)).
-4. Get your organizational Rookout token, and pass it as a variable to this module (rookout_token = "...")
+4. Get your organizational Rookout token, and pass it as a variable to this module
+   ```
+   rookout_token = "..."
+   ```
 
 ## Components
 
 This module deploy the Rookout ETL Controller by default. It also allows deployment of the Rookout Datastore, and a demo application with the Rookout agent.
 
+The components to deploy can be configured with the folloiwng boolean variables:
+
 ```
-    The components to deply can be configured with the folloiwng boolean variables:
     deploy_datastore = true/false
     deploy_demo_app = true/false
 ```
 
-## Certificate and DNS records
+## Certificate and DNS records management types
 
 There are two methods for certificates and DNS record management that will change the network architecture.
 
@@ -36,46 +40,42 @@ There are two methods for certificates and DNS record management that will chang
 
 For deployments where `domain_name` is provided, a `rookout.YOURDOMAIN` subdomain will be created in a route53 public hosted zone, and associated by creating an NS record in your domain's public hosted zone. The subdomain will be used for the controller, datastore (optional) and demo application (optional). A certificate for this subdomain will be created in ACM. ALBs will also be created for those components. The created certificate and DNS records will be associated to those ALBs' domain names.
 
-If you don't use route53 as your DNS registry provider, please contect us.
+*Note:* If you don't use route53 as your DNS registry provider, please contact us.
+
+For this type of [deployment](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf), provide the following variable:
+
+```
+    domain_name = "YOUR_DOMAIN"
+```
+
+The `internal_controller_alb` boolean variable (false by default) can be used to make the communication with the ETL Controller internal.
 
 ### Self-managed certificate and CNAME record
 
-For self managed certificate deployments CNAME record should be created for the Datastore and/or controller as explained below.
+For self managed certificate deployments CNAME record should be created for the Datastore and/or Controller, so we have two options.
 
-1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
-```
-    domain_name = "YOUR_DOMAIN"
-    rookout_token = "YOUR_TOKEN"
-```
-2. provided Domain with internal ALB controller ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_domain_internal_ctrl.tf))
+1. Provided ACM certificate for the Datastore ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore.tf))
 
-This deployment used when traffic to controller within the VPC or with associated one.
-```
-    domain_name = "YOUR_DOMAIN"
-    rookout_token = "YOUR_TOKEN"
-    internal_controller_alb = true
-```
-3. provided ACM certificate for datastore ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore.tf))
-
-This deployment will use pre-imported arn of certificate in ACM ( Body, private key and chain of certificate needed ).
-certificate will be used by datastore, therefore CNAME record of certificate's domain should be recored at your's DNS provider with datstore endpoint (output of the module).
-controller will be deployed with internal load balancer and can be reached from VPC with controller endpoint (output of the module). 
+This deployment will use the pre-imported ARN of the certificate in ACM (Body, private key, and chain of certificate are needed).
+THe certificate will be used by the datastore, therefore a CNAME record of the certificate's domain should be recored at your DNS provider with the Datstore endpoint (output of the module).
+A Controller will be deployed with an internal load balancer and can be reached from the VPC with the Controller's endpoint (output of the module).
 ```
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
-    rookout_token = "YOUR_TOKEN"
 ```
 
-4. provided ACM certificate for datastore and controller (for internet-facing controller) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore_controller.tf))
 
-Same is #3 deployment but, the controller is internet facing too. same procedure of CNAME record registration should be preformed for datastore and controller endpoints that match to their certificate's domain.
+2. Provided ACM certificate for Datastore and Controller (for internet-facing controller) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_certificate_datastore_controller.tf))
+
+Same as the previous option, but, the controller is internet facing too. Same procedure of CNAME record registration should be preformed for the Datastore and Controller endpoints that match to their certificate's domain.
 
 ```
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     controller_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
-    rookout_token = "YOUR_TOKEN"
+```    
 
-    to configure demo application to adress right address of controller configure with your's CNAME record:
-    demo_app_controller_host = "YOUR_CONTROLLER_CNAME"
+If a demo application is deployed, it should be configured with the Controller's CNAME record:
+```
+    demo_app_controller_host = "YOUR_CONTROLLER_CNAME_RECORD"
 ```
 
 ## Deplyment matrixes
