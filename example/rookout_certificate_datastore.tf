@@ -3,7 +3,8 @@
 # controller will be deployed with internal load balancer. 
 module "rookout" {
     source = "rookout/aws-deployment"
-
+    # version = x.y.z
+    
     datastore_acm_certificate_arn = "PRE_IMPORTED_ACM_CERTIFICATE_ARN"
     rookout_token = "YOUR_TOKEN"
 }
