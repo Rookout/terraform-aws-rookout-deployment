@@ -1,6 +1,7 @@
 ## Deploy Rookout on AWS ECS Fargate Cluster using Terraform
 
 This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
+
 The module implements the following architecture (default deployment):
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg" width="900">
@@ -10,29 +11,36 @@ Network architecture (default deployment):
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Plain_Network.jpg" width="900">
 
 ### Prerequisites 
-1. terraform installed
+1. Terraform installed.
 2. AWS account inlcuding: AWS CLI installed.
     * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
     * Set profile if used non default profile. Run: `export AWS_PROFILE="<profile_name>"`
-3. [Optional] - remote state bucket and dyanmoDB lock. can be created with attached tf-backend module.
-4. Get Rookout token, and pass it as variable to this module (rookout_token = "...")
-## Level of rookout deployment
-1. Controller only
-2. Controller + Datastore (default)
-3. Controller + Datastore + Demo application 
+3. Create a `provider.tf` file ([reference](https://www.terraform.io/language/providers/configuration)).
+4. Get your organizational Rookout token, and pass it as a variable to this module (rookout_token = "...")
+
+## Components
+
+This module deploy the Rookout ETL Controller by default. It also allows deployment of the Rookout Datastore, and a demo application with the Rookout agent.
+
 ```
-    This can be configured with the folloiwng boolean variables:
+    The components to deply can be configured with the folloiwng boolean variables:
     deploy_datastore = true/false
     deploy_demo_app = true/false
 ```
 
-## Level of infrastructure deployment
+## Certificate and DNS records
 
-The following variable combination are deployment options. each variable combination will change the network architecture of the components.
+There are two methods for certificates and DNS record management that will change the network architecture.
 
-For deployments that domain_name (1,2) provided, controller, datastore (optional) and demo application (optional) endpoint will be created by this module. To accomplish that ALB will be deployed usging ACM and provided domain address. subdomain will be create in route53 and SN record will be created in domain's public hosted zone. if you don't use route53 as your's dns registry, please contect us for support of SN record creation using this module.
+### Module-managed certificate and CNAME record
 
-For self managed certificate deployments (3,4) CNAME record should be created to datastore and/or controller as explained below.
+For deployments where `domain_name` is provided, a `rookout.YOURDOMAIN` subdomain will be created in a route53 public hosted zone, and associated by creating an NS record in your domain's public hosted zone. The subdomain will be used for the controller, datastore (optional) and demo application (optional). A certificate for this subdomain will be created in ACM. ALBs will also be created for those components. The created certificate and DNS records will be associated to those ALBs' domain names.
+
+If you don't use route53 as your DNS registry provider, please contect us.
+
+### Self-managed certificate and CNAME record
+
+For self managed certificate deployments CNAME record should be created for the Datastore and/or controller as explained below.
 
 1. provided Domain (default) ([example](https://github.com/Rookout/aws-deployment/blob/main/example/rookout_default.tf))
 ```
