@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 (2022-07-20)
+
+
+### Bug Fixes
+
+* init ([0e4ec5c](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/0e4ec5c55c2dee3bb6b1a3f4868d6ef0b71886c4))
+
 ## 0.1.0 (2022-07-18)
 
 
