@@ -12,7 +12,7 @@ module "rookout" {
     create_cluster = false
     cluster_name = "<your's existing cluster name>"
     
-    rookout_token = "YOUR TOKEN"
+    rookout_token = "YOUR TOKEN" 
 
     create_vpc = false
     vpc_id = "<your vpc id>"
