@@ -69,7 +69,7 @@ variable "rookout_token" {
   type = string
   validation {
     condition     = length(var.rookout_token) == 64
-    error_message = "Rookout token have to be 64 characters in length"
+    error_message = "Rookout token have to be 64 characters in length."
   }
   description = "Rookout token"
 }
