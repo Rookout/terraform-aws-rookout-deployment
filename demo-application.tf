@@ -81,7 +81,7 @@ resource "aws_security_group" "allow_demo" {
 
   name        = local.demo_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout demo application"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to demo application"
     from_port   = local.demo_settings.container_port
