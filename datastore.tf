@@ -87,7 +87,7 @@ resource "aws_security_group" "datastore" {
 
   name        = local.datastore_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout datastore"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to datastore"
     from_port   = local.datastore_settings.container_port

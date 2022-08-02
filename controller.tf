@@ -78,7 +78,7 @@ resource "aws_security_group" "controller" {
 
   name        = local.controller_settings.container_name
   description = "Allow inbound/outbound traffic for Rookout controller"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to controller"
     from_port   = local.controller_settings.container_port

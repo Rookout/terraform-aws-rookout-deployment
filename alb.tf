@@ -20,7 +20,7 @@ resource "aws_lb_target_group" "controller" {
   port        = local.controller_settings.container_port
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   health_check {
     protocol = "HTTP"
     path     = "/"
@@ -47,7 +47,7 @@ resource "aws_security_group" "alb_controller" {
 
   name        = "${local.controller_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout controller"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to controller"
     from_port   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
@@ -87,7 +87,7 @@ resource "aws_lb_target_group" "datastore" {
   port        = local.datastore_settings.container_port
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   health_check {
     protocol = "HTTP"
     path     = "/"
@@ -113,7 +113,7 @@ resource "aws_security_group" "alb_datastore" {
 
   name        = "${local.datastore_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout datastore"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to datastore"
     from_port   = 443
@@ -153,7 +153,7 @@ resource "aws_lb_target_group" "demo" {
   port        = local.demo_settings.container_port
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   health_check {
     protocol = "HTTP"
     path     = "/"
@@ -180,7 +180,7 @@ resource "aws_security_group" "alb_demo" {
 
   name        = "${local.demo_settings.container_name}-alb"
   description = "Allow inbound/outbound traffic for Rookout demo application"
-  vpc_id      = module.vpc[0].vpc_id
+  vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   ingress {
     description = "Inbound from IGW to demo application"
     from_port   = var.domain_name == "" ? 80 : 443
