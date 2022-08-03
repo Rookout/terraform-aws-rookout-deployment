@@ -8,6 +8,13 @@ resource "aws_route53_zone" "sub_domain" {
   count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   name    = "rookout.${var.domain_name}"
   comment = "rookout.${var.domain_name}"
+
+  dynamic "vpc" {
+    for_each = var.internal ? [1] : [0]
+    content {
+      vpc_id = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
+    }
+  }
 }
 
 resource "aws_route53_record" "rookout" {

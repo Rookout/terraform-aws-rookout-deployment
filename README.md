@@ -131,6 +131,8 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
     ```
     If target groups are not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
 
+* internal - boolean variable wich switches the ALBs to be internal only. will create a rookout.YOYRDOMAIN private hosted zone. NOTE: your domain should be public for creation of trusted TLS certificates to records in this subdomain.
+
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
