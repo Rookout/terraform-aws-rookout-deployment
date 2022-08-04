@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.3](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.2...v0.1.3) (2022-08-04)
+
+
+### Bug Fixes
+
+* added internal variable to suport private hosted zones ([54ae66c](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/54ae66c449a5d811fd3abf913ca24943965a597e))
+* aws_route53_zone dynamic block syntax fix ([5dd1d79](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/5dd1d79146b272f00a364aaf5f32c47b435e5766))
+* aws_route53_zone dynamic block syntax fix ([9b8031a](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/9b8031a3c9b2c00628205a9e337c5344275ceb24))
+
 ## [0.1.2](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.1...v0.1.2) (2022-08-02)
 
 
