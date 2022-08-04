@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.3...v0.1.4) (2022-08-04)
+
+
+### Bug Fixes
+
+* aws_route53_zone sn record fix ([6a4810c](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/6a4810cfaa7e8e6d9f62509a4870822929910560))
+
 ## [0.1.3](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.2...v0.1.3) (2022-08-04)
 
 
