@@ -6,7 +6,7 @@ resource "aws_alb" "controller" {
   count = var.deploy_alb ? 1 : 0
 
   name               = "rookout-controller-alb"
-  internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? true : false
+  internal           = var.internal ? true : var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? true : false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_controller[0].id]
   subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
@@ -74,7 +74,7 @@ resource "aws_alb" "datastore" {
   count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
   name               = "rookout-datastore-alb"
-  internal           = false
+  internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_datastore[0].id]
   subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets
@@ -139,7 +139,7 @@ resource "aws_alb" "demo" {
   count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
   name               = "rookout-demo-alb"
-  internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" ? true : false
+  internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal ? true : false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_demo[0].id]
   subnets            = var.create_vpc ? module.vpc[0].public_subnets : var.vpc_public_subnets

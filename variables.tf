@@ -184,3 +184,9 @@ variable "controller_acm_certificate_arn" {
   default     = ""
   description = "ARN of pre-imported SSL certificate to ACM for Rookouts controller public access, if datastore ACM provided controller alb will be internal"
 }
+
+variable "internal" {
+  type = bool
+  default = false
+  description = "Flag to switch the deployment to be internal"
+}
