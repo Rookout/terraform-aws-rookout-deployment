@@ -11,7 +11,7 @@ resource "aws_route53_zone" "sub_domain" {
 
   dynamic "vpc" {
     for_each = var.internal ? [1] : []
-xwwww    content {
+    content {
       vpc_id = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
     }
   }
