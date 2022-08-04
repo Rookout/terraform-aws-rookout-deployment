@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.4...v0.1.5) (2022-08-04)
+
+
+### Bug Fixes
+
+* wildcard certificate support ([ee21d2c](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/ee21d2ce678571404a3257ec20401cea8141ba6f))
+* wildcard certificate support ([5030447](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/503044718fe6214e4db8cbb4a5ea3a062fd8a4bf))
+
 ## [0.1.4](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.3...v0.1.4) (2022-08-04)
 
 
