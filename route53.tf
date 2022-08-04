@@ -10,7 +10,7 @@ resource "aws_route53_zone" "sub_domain" {
   comment = "rookout.${var.domain_name}"
 
   dynamic "vpc" {
-    for_each = var.internal ? [1] : [0]
+    for_each = var.internal ? [1] : []
     content {
       vpc_id = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
     }
