@@ -190,9 +190,3 @@ variable "internal" {
   default = false
   description = "Flag to switch the deployment to be internal"
 }
-
-variable "wildcard_certificate_arn" {
-  type = string
-  default = ""
-  description = "Will force the module to use wildcard certificate and not generate one"
-}

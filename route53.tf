@@ -28,7 +28,7 @@ resource "aws_route53_record" "rookout" {
 }
 
 module "acm" {
-  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" && var.wildcard_certificate_arn == "" ? 1 : 0
+  count   = var.deploy_alb && var.datastore_acm_certificate_arn == ""  ? 1 : 0
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 3.0"
 
