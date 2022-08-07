@@ -149,9 +149,9 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
-| <a name="provider_awsutils"></a> [awsutils](#provider\_awsutils) | 0.11.1 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.2.3 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
+| <a name="provider_awsutils"></a> [awsutils](#provider\_awsutils) | >= 0.11.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | n/a |
 
 ## Modules
 
