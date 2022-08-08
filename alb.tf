@@ -5,7 +5,7 @@
 resource "aws_alb" "controller" {
   count = var.deploy_alb ? 1 : 0
 
-  name               = "rookout-controller-alb"
+  name               = "${var.environment}-controller-alb"
   internal           = var.internal ? true : var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? true : false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_controller[0].id]
@@ -73,7 +73,7 @@ resource "aws_security_group" "alb_controller" {
 resource "aws_alb" "datastore" {
   count = var.deploy_datastore && var.deploy_alb ? 1 : 0
 
-  name               = "rookout-datastore-alb"
+  name               = "${var.environment}-datastore-alb"
   internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_datastore[0].id]
@@ -138,7 +138,7 @@ resource "aws_security_group" "alb_datastore" {
 resource "aws_alb" "demo" {
   count = var.deploy_demo_app && var.deploy_alb ? 1 : 0
 
-  name               = "rookout-demo-alb"
+  name               = "${var.environment}-demo-alb"
   internal           = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal ? true : false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_demo[0].id]

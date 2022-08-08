@@ -1,7 +1,7 @@
 
 locals {
   controller_settings = {
-    container_name     = "rookout-controller"
+    container_name     = "${var.environment}-controller"
     task_cpu           = var.controller_resource.cpu
     task_memory        = var.controller_resource.memory
     onprem_enabled     = true
@@ -69,7 +69,7 @@ resource "aws_ecs_service" "controller" {
 
 resource "aws_cloudwatch_log_stream" "controller_log_stream" {
 
-  name           = "rookout-controller"
+  name           = "${var.environment}-controller"
   log_group_name = aws_cloudwatch_log_group.rookout.name
 }
 

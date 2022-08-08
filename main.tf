@@ -9,7 +9,7 @@ locals {
 }
 resource "aws_ecs_cluster" "rookout" {
   count = var.create_cluster ? 1 : 0
-  name  = "Rookout-ecs-cluster"
+  name  = "${var.environment}-ecs-cluster"
 
   tags = local.tags
 }
@@ -20,10 +20,10 @@ data "aws_ecs_cluster" "provided" {
 }
 
 resource "aws_cloudwatch_log_group" "rookout" {
-  name_prefix = "rookout"
+  name_prefix = var.environment
 }
 
 resource "aws_cloudwatch_log_group" "demo" {
   count       = var.deploy_demo_app ? 1 : 0
-  name_prefix = "demo"
+  name_prefix = "${var.environment}-demo"
 }
