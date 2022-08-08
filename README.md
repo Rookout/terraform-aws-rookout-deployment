@@ -131,7 +131,9 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
     ```
     If target groups are not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
 
-* internal - boolean variable wich switches the ALBs to be internal only. will create a rookout.YOYRDOMAIN private hosted zone. NOTE: your domain should be public for creation of trusted TLS certificates to records in this subdomain.
+* internal - boolean variable wich switches the ALBs to be internal only.
+
+* wildcard certificate can be used with datastore_acm_certificate_arn and controller_acm_certificate_arn variables. when those used, please create CNAME records for controller and datastore out of outputs of this module (controller_endpoint, datastore_endpoint) to match the certificate's domain.
 
 
 <!-- BEGIN_TF_DOCS -->
@@ -148,12 +150,15 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
+| <a name="provider_awsutils"></a> [awsutils](#provider\_awsutils) | >= 0.11.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_acm"></a> [acm](#module\_acm) | terraform-aws-modules/acm/aws | ~> 3.0 |
+| <a name="module_client-vpn"></a> [client-vpn](#module\_client-vpn) | DNXLabs/client-vpn/aws | 0.4.0 |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.14.2 |
 
 ## Resources
@@ -194,9 +199,11 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | [aws_security_group.allow_demo](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.datastore](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [local_file.ovpn](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [aws_ecs_cluster.provided](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecs_cluster) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_route53_zone.selected](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
+| [awsutils_ec2_client_vpn_export_client_config.default](https://registry.terraform.io/providers/cloudposse/awsutils/latest/docs/data-sources/ec2_client_vpn_export_client_config) | data source |
 
 ## Inputs
 
@@ -222,6 +229,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_deploy_demo_app"></a> [deploy\_demo\_app](#input\_deploy\_demo\_app) | (Optional) If true will deploy demo flask application to start debuging | `bool` | `false` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | DNS domain which sub | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"rookout"` | no |
+| <a name="input_internal"></a> [internal](#input\_internal) | Flag to switch the deployment to be internal | `bool` | `false` | no |
 | <a name="input_internal_controller_alb"></a> [internal\_controller\_alb](#input\_internal\_controller\_alb) | If domain provided, switching in on will make controller be reachable internaly only | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
