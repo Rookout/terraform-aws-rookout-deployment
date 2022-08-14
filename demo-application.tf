@@ -1,7 +1,7 @@
 
 locals {
   demo_settings = {
-    container_name     = "rookout-tutorial-python"
+    container_name     = "${var.environment}-tutorial-python"
     task_cpu           = 512
     task_memory        = 1024
     container_cpu      = 512
@@ -69,7 +69,7 @@ resource "aws_ecs_service" "demo" {
 
 resource "aws_cloudwatch_log_stream" "demo_log_stream" {
   count          = var.deploy_demo_app ? 1 : 0
-  name           = "demo"
+  name           = "${var.environment}-demo"
   log_group_name = aws_cloudwatch_log_group.demo[0].name
 }
 

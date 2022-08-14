@@ -27,7 +27,12 @@
       {
         "name": "ROOKOUT_TOKEN",
         "value": "${rookout_token}"
+      },
+      {
+        "name": "ROOKOUT_DOP_LOGGING_TOKEN",
+        "value": "${rookout_token}"
       }
+
       %{for key, value in additional_env_vars}
       ,{
         "name": "${key}",

@@ -1,6 +1,6 @@
 locals {
   datastore_settings = { # TODO: configure
-    container_name         = "rookout-datastore"
+    container_name         = "${var.environment}-datastore"
     task_cpu               = var.datastore_resource.cpu
     task_memory            = var.datastore_resource.memory
     onprem_enabled         = true
@@ -77,7 +77,7 @@ resource "aws_ecs_service" "datastore" {
 resource "aws_cloudwatch_log_stream" "datastore_log_stream" {
   count = var.deploy_datastore ? 1 : 0
 
-  name           = "rookout-datastore"
+  name           = "${var.environment}-datastore"
   log_group_name = aws_cloudwatch_log_group.rookout.name
 }
 
