@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.7](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.6...v0.1.7) (2022-08-14)
+
+
+### Bug Fixes
+
+* namespacing and log sink added ([a9caee8](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/a9caee88b3f2d2f0c7567b5c383a837dfa2e02e3))
+* terratest added ([0393266](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/0393266ab3cb6835d36d7741e75b44f8fc83cec9))
+* terratest added ([fd04676](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/fd0467659f72ea908deeb4d40ba2fb5cd45e4cde))
+* terratest added ([3696b26](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/3696b261d7a62e9f09aa20b034c8086948fd1fb8))
+
 ## [0.1.6](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.5...v0.1.6) (2022-08-08)
 
 
