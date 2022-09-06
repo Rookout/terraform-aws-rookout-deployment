@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.7...v0.1.8) (2022-09-06)
+
+
+### Bug Fixes
+
+* internal domain supported ([f68a696](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/f68a6966de4b8f76274d4bdd15b7ddefe36419e7))
+
 ## [0.1.7](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.6...v0.1.7) (2022-08-14)
 
 
