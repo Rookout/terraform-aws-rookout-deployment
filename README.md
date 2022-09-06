@@ -131,7 +131,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
     ```
     If target groups are not passed, the loadbalancer configuration block in task defenitaion will be disbaled.
 
-* internal - boolean variable wich switches the ALBs to be internal only. if provided domain_name will create private hosted zone us that domain. Usually used with wildcard certificate.
+* internal - boolean variable wich switches the ALBs to be internal only. if provided domain_name will create private hosted zone us that domain. Usually used with wildcard certificate. 
 
 * wildcard certificate can be used with datastore_acm_certificate_arn and controller_acm_certificate_arn variables. when those used, please create CNAME records for controller and datastore out of outputs of this module (controller_endpoint, datastore_endpoint) to match the certificate's domain.
 
