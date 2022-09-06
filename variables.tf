@@ -186,7 +186,7 @@ variable "controller_acm_certificate_arn" {
 }
 
 variable "internal" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Flag to switch the deployment to be internal"
 }

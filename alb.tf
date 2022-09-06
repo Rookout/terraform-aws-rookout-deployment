@@ -34,7 +34,7 @@ resource "aws_lb_listener" "controller" {
   load_balancer_arn = aws_alb.controller[0].arn
   port              = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
   protocol          = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "HTTP" : "HTTPS"
-  certificate_arn   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "" : var.controller_acm_certificate_arn == "" ? module.acm[0].acm_certificate_arn: var.controller_acm_certificate_arn
+  certificate_arn   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? "" : var.controller_acm_certificate_arn == "" ? module.acm[0].acm_certificate_arn : var.controller_acm_certificate_arn
 
   default_action {
     type             = "forward"
@@ -100,7 +100,7 @@ resource "aws_lb_listener" "datastore" {
   load_balancer_arn = aws_alb.datastore[0].arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn   = var.datastore_acm_certificate_arn != "" ? var.datastore_acm_certificate_arn : module.acm[0].acm_certificate_arn 
+  certificate_arn   = var.datastore_acm_certificate_arn != "" ? var.datastore_acm_certificate_arn : module.acm[0].acm_certificate_arn
 
   default_action {
     type             = "forward"

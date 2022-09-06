@@ -5,9 +5,9 @@ data "aws_route53_zone" "selected" {
 }
 
 resource "aws_route53_zone" "sub_domain" {
-  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
-  name    = "${var.environment}.${var.domain_name}"
-  comment = "${var.environment}.${var.domain_name}"
+  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" || var.deploy_alb && var.internal && var.domain_name != "" ? 1 : 0
+  name    = var.internal && var.domain_name != "" ? "${var.domain_name}" : "${var.environment}.${var.domain_name}"
+  comment = var.internal && var.domain_name != "" ? "${var.domain_name}" : "${var.environment}.${var.domain_name}"
 
   dynamic "vpc" {
     for_each = var.internal ? [1] : []
@@ -28,7 +28,7 @@ resource "aws_route53_record" "rookout" {
 }
 
 module "acm" {
-  count   = var.deploy_alb && var.datastore_acm_certificate_arn == ""  ? 1 : 0
+  count   = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 3.0"
 
@@ -46,10 +46,10 @@ module "acm" {
 }
 
 resource "aws_route53_record" "controller" {
-  count = var.deploy_alb && var.datastore_acm_certificate_arn == "" && !var.internal_controller_alb ? 1 : 0
+  count = var.deploy_alb && var.datastore_acm_certificate_arn == "" && !var.internal_controller_alb || var.deploy_alb && var.internal && var.domain_name != "" ? 1 : 0
 
   zone_id = aws_route53_zone.sub_domain[0].id
-  name    = "controller.${var.environment}.${var.domain_name}"
+  name    = var.internal && var.domain_name != "" ? "rookout-controller.${var.domain_name}" : "controller.${var.environment}.${var.domain_name}"
   type    = "A"
 
   alias {
@@ -60,10 +60,10 @@ resource "aws_route53_record" "controller" {
 }
 
 resource "aws_route53_record" "datastore" {
-  count = var.deploy_datastore && var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
+  count = var.deploy_datastore && var.deploy_alb && var.datastore_acm_certificate_arn == "" || var.deploy_datastore && var.deploy_alb && var.internal && var.domain_name != "" ? 1 : 0
 
   zone_id = aws_route53_zone.sub_domain[0].id
-  name    = "datastore.${var.environment}.${var.domain_name}"
+  name    = var.internal && var.domain_name != "" ? "rookout-datastore.${var.domain_name}" : "datastore.${var.environment}.${var.domain_name}"
   type    = "A"
 
   alias {
@@ -74,9 +74,9 @@ resource "aws_route53_record" "datastore" {
 }
 
 resource "aws_route53_record" "demo" {
-  count   = var.deploy_demo_app && var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
+  count   = var.deploy_demo_app && var.deploy_alb && var.datastore_acm_certificate_arn == "" || var.deploy_demo_app && var.deploy_alb && var.internal && var.domain_name != "" ? 1 : 0
   zone_id = aws_route53_zone.sub_domain[0].id
-  name    = "demo.${var.environment}.${var.domain_name}"
+  name    = var.internal && var.domain_name != "" ? "rookout-demo.${var.domain_name}" : "demo.${var.environment}.${var.domain_name}"
   type    = "A"
 
   alias {
