@@ -31,6 +31,10 @@
       {
         "name": "ROOKOUT_TOKEN",
         "value": "${rookout_token}"
+      },
+      {
+        "name": "ROOKS_WS_LISTEN_ADDR",
+        "value": ":${port}"
       }
 %{for key, value in additional_env_vars}
       ,{
