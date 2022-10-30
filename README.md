@@ -1,8 +1,14 @@
-## Deploy Rookout on AWS ECS Fargate Cluster using Terraform
+# Deploy Rookout on AWS ECS Fargate Cluster using Terraform
 
-This terraform depolying Rookout Controller and Rookout Datastore on AWS ECS Fargate cluster.
+Rookout's hybrid (on-premise) architecture components - ETL Controller and Datastore
 
-The module implements the following architecture (default deployment):
+For more information:
+
+Controller - https://docs.rookout.com/docs/etl-controller-intro
+
+Datastore - https://docs.rookout.com/docs/dop-intro
+
+## Architecture
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment.jpg?raw=true" width="900">
 
@@ -10,20 +16,20 @@ Network architecture (default deployment):
 
 <img src="https://github.com/Rookout/aws-deployment/blob/main/documentation/AWS_Deployment_Plain_Network.jpg?raw=true" width="900">
 
-### Prerequisites 
-1. Terraform installed.
-2. AWS account inlcuding: AWS CLI installed.
-    * The AWS default profile should be set with an access key and secret ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)).
-    * Set profile if used non default profile. Run: `export AWS_PROFILE="<profile_name>"`
-3. Create a `provider.tf` file ([reference](https://www.terraform.io/language/providers/configuration)).
-4. Get your organizational Rookout token, and pass it as a variable to this module
+## Prerequisites
+1. Have an AWS account.
+1. Install AWS CLI.
+   * Access key ID and secret access key must be set ([reference](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-creds)).
+   * Set a profile if not using the default. Run `export AWS_PROFILE="<profile_name>"`.
+1. Create a `provider.tf` file ([reference](https://www.terraform.io/language/providers/configuration)).
+1. Get your organizational Rookout token, and pass it as a variable to this module
    ```
    rookout_token = "..."
    ```
 
 ## Components
 
-This module deploy the Rookout ETL Controller by default. It also allows deployment of the Rookout Datastore, and a demo application with the Rookout agent.
+This module deploys the Rookout ETL Controller by default. It also allows deployment of the Rookout Datastore, and a demo application with the Rookout agent.
 
 The components to deploy can be configured with the folloiwng boolean variables:
 
