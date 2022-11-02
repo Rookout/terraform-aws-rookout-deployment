@@ -7,3 +7,7 @@ module "rookout" {
 
     internal_controller_alb = true
 }
+
+output "rookout" {
+    value = module.rookout
+}

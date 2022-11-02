@@ -18,3 +18,7 @@ module "rookout" {
     vpc_public_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
     vpc_private_subnets = ["<first_sub_domain>", "<second_sub_domain>"]
 }
+
+output "rookout" {
+    value = module.rookout
+}

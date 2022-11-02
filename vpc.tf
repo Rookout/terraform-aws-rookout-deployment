@@ -6,7 +6,7 @@ module "vpc" {
   name = "${var.environment}-rookout-vpc"
   cidr = var.vpc_cidr
 
-  azs             = var.vpc_avilability_zones
+  azs             = var.vpc_availability_zones
   private_subnets = var.vpc_private_subnets
   public_subnets  = var.vpc_public_subnets
 
