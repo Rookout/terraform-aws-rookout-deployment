@@ -91,7 +91,7 @@ variable "vpc_cidr" {
   default = "172.30.1.0/25"
 }
 
-variable "vpc_avilability_zones" {
+variable "vpc_availability_zones" {
   type    = list(string)
   default = ["eu-west-1a", "eu-west-1b"]
 }
