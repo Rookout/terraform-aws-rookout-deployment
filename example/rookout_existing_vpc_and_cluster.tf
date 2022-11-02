@@ -1,5 +1,7 @@
 module "rookout" {
     source  = "Rookout/rookout-deployment/aws"
+    # version = x.y.z
+    
     environment = "rookout"
     region = "YOUR REGION" # will use provider region if not provided
     domain_name = "YOUR_DOMAIN.com"
