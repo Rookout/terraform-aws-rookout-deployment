@@ -156,7 +156,7 @@ resource "aws_lb_target_group" "demo" {
   vpc_id      = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
   health_check {
     protocol = "HTTP"
-    path     = "/"
+    path     = "/static/index.html"
   }
 }
 
