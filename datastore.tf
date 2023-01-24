@@ -28,6 +28,7 @@ locals {
     dop_no_ssl_verify      = local.datastore_settings.dop_no_ssl_verify
     datastore_in_memory_db = local.datastore_settings.datastore_in_memory_db
     additional_env_vars    = var.additional_datastore_env_vars
+    datastore_version      = var.datastore_version
   })
 
 }

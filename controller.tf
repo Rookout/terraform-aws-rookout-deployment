@@ -26,6 +26,7 @@ locals {
     onprem_enabled         = var.deploy_datastore ? local.controller_settings.onprem_enabled : false
     dop_no_ssl_verify      = local.controller_settings.dop_no_ssl_verify
     additional_env_vars    = var.additional_controller_env_vars
+    controller_version     = var.controller_version
   })
 
 }

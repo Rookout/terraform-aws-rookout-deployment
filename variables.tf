@@ -65,6 +65,19 @@ variable "datastore_resource" {
   }
   description = "Rookout's onprem datastore resource map"
 }
+
+variable "datastore_version" {
+  type = string
+  default = "latest"
+  description = "Datastore image version"
+}
+
+variable "controller_version" {
+  type = string
+  default = "latest"
+  description = "Controller image version"
+}
+
 variable "rookout_token" {
   type = string
   validation {
