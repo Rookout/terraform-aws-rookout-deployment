@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.8...v0.1.9) (2023-01-24)
+
+
+### Bug Fixes
+
+* bump verison ([#42](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/42)) ([9507227](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/9507227563e929d3b5de5fe556c41763d773dfeb))
+
 ## [0.1.8](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.7...v0.1.8) (2022-09-06)
 
 
