@@ -53,7 +53,7 @@ resource "aws_security_group" "alb_controller" {
     from_port   = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
     to_port     = var.datastore_acm_certificate_arn != "" && var.controller_acm_certificate_arn == "" || var.internal_controller_alb ? 80 : 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.controller_alb_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"
@@ -119,7 +119,7 @@ resource "aws_security_group" "alb_datastore" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.datastore_alb_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"
@@ -186,7 +186,7 @@ resource "aws_security_group" "alb_demo" {
     from_port   = var.domain_name == "" ? 80 : 443
     to_port     = var.domain_name == "" ? 80 : 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.demo_app_alb_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"
