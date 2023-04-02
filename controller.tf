@@ -85,7 +85,7 @@ resource "aws_security_group" "controller" {
     from_port   = local.controller_settings.container_port
     to_port     = local.controller_settings.container_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.controller_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"

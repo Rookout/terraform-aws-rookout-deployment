@@ -87,7 +87,7 @@ resource "aws_security_group" "allow_demo" {
     from_port   = local.demo_settings.container_port
     to_port     = local.demo_settings.container_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.demo_app_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"

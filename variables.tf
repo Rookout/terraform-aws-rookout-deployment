@@ -203,3 +203,39 @@ variable "internal" {
   default     = false
   description = "Flag to switch the deployment to be internal"
 }
+
+variable "controller_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs of controller security group"
+}
+
+variable "controller_alb_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs for controller's ALB security group"
+}
+
+variable "datastore_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs of datastore security group"
+}
+
+variable "datastore_alb_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs datastore's ALB security group"
+}
+
+variable "demo_app_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs of datastore security group"
+}
+
+variable "demo_app_alb_sg_igress_cidr_blocks" {
+  type = list(string)
+  default = ["0.0.0.0/0"]
+  description = "Ingress CIDRs datastore's ALB security group"
+}

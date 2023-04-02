@@ -94,7 +94,7 @@ resource "aws_security_group" "datastore" {
     from_port   = local.datastore_settings.container_port
     to_port     = local.datastore_settings.container_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.datastore_sg_igress_cidr_blocks
   }
   egress {
     description      = "Outbound all"
