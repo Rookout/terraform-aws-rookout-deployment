@@ -67,14 +67,14 @@ variable "datastore_resource" {
 }
 
 variable "datastore_version" {
-  type = string
-  default = "latest"
+  type        = string
+  default     = "latest"
   description = "Datastore image version"
 }
 
 variable "controller_version" {
-  type = string
-  default = "latest"
+  type        = string
+  default     = "latest"
   description = "Controller image version"
 }
 
@@ -106,7 +106,7 @@ variable "vpc_cidr" {
 
 variable "vpc_availability_zones" {
   type    = list(string)
-  default = ["eu-west-1a", "eu-west-1b"]
+  default = []
 }
 
 variable "vpc_private_subnets" {

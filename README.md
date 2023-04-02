@@ -211,12 +211,14 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_controller_acm_certificate_arn"></a> [controller\_acm\_certificate\_arn](#input\_controller\_acm\_certificate\_arn) | ARN of pre-imported SSL certificate to ACM for Rookouts controller public access, if datastore ACM provided controller alb will be internal | `string` | `""` | no |
 | <a name="input_controller_resource"></a> [controller\_resource](#input\_controller\_resource) | Rookout's onprem controller resource map | `map(any)` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
 | <a name="input_controller_target_group_arn"></a> [controller\_target\_group\_arn](#input\_controller\_target\_group\_arn) | Target group used by controller ECS tasks | `string` | `""` | no |
+| <a name="input_controller_version"></a> [controller\_version](#input\_controller\_version) | Controller image version | `string` | `"latest"` | no |
 | <a name="input_create_cluster"></a> [create\_cluster](#input\_create\_cluster) | whether create a cluster or use existing one | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | # VPC variables. | `bool` | `true` | no |
 | <a name="input_custom_iam_task_exec_role_arn"></a> [custom\_iam\_task\_exec\_role\_arn](#input\_custom\_iam\_task\_exec\_role\_arn) | ECS execution IAM Role overwrite, please pass arn of existing IAM Role | `string` | `""` | no |
 | <a name="input_datastore_acm_certificate_arn"></a> [datastore\_acm\_certificate\_arn](#input\_datastore\_acm\_certificate\_arn) | ARN of pre-imported SSL certificate to ACM for Rookouts datastore public access | `string` | `""` | no |
 | <a name="input_datastore_resource"></a> [datastore\_resource](#input\_datastore\_resource) | Rookout's onprem datastore resource map | `map(any)` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
 | <a name="input_datastore_target_group_arn"></a> [datastore\_target\_group\_arn](#input\_datastore\_target\_group\_arn) | Target group used by datastore ECS tasks | `string` | `""` | no |
+| <a name="input_datastore_version"></a> [datastore\_version](#input\_datastore\_version) | Datastore image version | `string` | `"latest"` | no |
 | <a name="input_demo_app_controller_host"></a> [demo\_app\_controller\_host](#input\_demo\_app\_controller\_host) | Host which the demo rook connect to controller using WebSocket | `string` | `""` | no |
 | <a name="input_demo_app_target_group_arn"></a> [demo\_app\_target\_group\_arn](#input\_demo\_app\_target\_group\_arn) | Target group used by demo applicatino ECS tasks | `string` | `""` | no |
 | <a name="input_deploy_alb"></a> [deploy\_alb](#input\_deploy\_alb) | Radio button to not deploy ALB for ECS tasks, if false please provide target group for each | `bool` | `true` | no |
@@ -228,7 +230,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_internal_controller_alb"></a> [internal\_controller\_alb](#input\_internal\_controller\_alb) | If domain provided, switching in on will make controller be reachable internaly only | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | n/a | yes |
-| <a name="input_vpc_availability_zones"></a> [vpc\_availability\_zones](#input\_vpc\_availability\_zones) | n/a | `list(string)` | <pre>[<br>  "eu-west-1a",<br>  "eu-west-1b"<br>]</pre> | no |
+| <a name="input_vpc_availability_zones"></a> [vpc\_availability\_zones](#input\_vpc\_availability\_zones) | n/a | `list(string)` | `[]` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"172.30.1.0/25"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC id should be passed only if create\_vpc = false | `string` | `""` | no |
 | <a name="input_vpc_private_subnets"></a> [vpc\_private\_subnets](#input\_vpc\_private\_subnets) | n/a | `list(string)` | <pre>[<br>  "172.30.1.0/27",<br>  "172.30.1.32/27"<br>]</pre> | no |

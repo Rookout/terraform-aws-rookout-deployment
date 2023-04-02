@@ -1,3 +1,6 @@
+locals {
+  azs = var.vpc_availability_zones == [] ? ["${local.region}a", "${local.region}b"] : var.vpc_availability_zones
+}
 module "vpc" {
   count   = var.create_vpc ? 1 : 0
   source  = "terraform-aws-modules/vpc/aws"
@@ -6,7 +9,7 @@ module "vpc" {
   name = "${var.environment}-rookout-vpc"
   cidr = var.vpc_cidr
 
-  azs             = var.vpc_availability_zones
+  azs             = local.azs
   private_subnets = var.vpc_private_subnets
   public_subnets  = var.vpc_public_subnets
 
