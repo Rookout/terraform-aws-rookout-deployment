@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.9...v0.2.0) (2023-04-02)
+
+
+### Features
+
+* securiy groups ingress cidr config ([#46](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/46)) ([46e1557](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/46e1557ff2d6481ed7f3e4e054fbe0dd1f27af94))
+
+
+### Bug Fixes
+
+* azs generate from region ([#44](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/44)) ([aa7e924](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/aa7e924c613753866ad9d5eef2826b529edea28a))
+
 ## [0.1.9](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.8...v0.1.9) (2023-01-24)
 
 
