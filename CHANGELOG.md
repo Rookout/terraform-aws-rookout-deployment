@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.0...v0.2.1) (2023-05-30)
+
+
+### Bug Fixes
+
+* aws-vpc-4 ([c8854fa](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/c8854faee1b6da4b86e2191932376a8778a3230f))
+
 ## [0.2.0](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.1.9...v0.2.0) (2023-04-02)
 
 
