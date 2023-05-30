@@ -4,7 +4,7 @@ locals {
 module "vpc" {
   count   = var.create_vpc ? 1 : 0
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.2"
+  version = "4.0.2"
 
   name = "${var.environment}-rookout-vpc"
   cidr = var.vpc_cidr
