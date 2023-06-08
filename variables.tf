@@ -106,7 +106,7 @@ variable "vpc_cidr" {
 
 variable "vpc_availability_zones" {
   type    = list(string)
-  default = []
+  default = [""]
 }
 
 variable "vpc_private_subnets" {
