@@ -1,5 +1,5 @@
 locals {
-  azs = var.vpc_availability_zones == [] ? ["${local.region}a", "${local.region}b"] : var.vpc_availability_zones
+  azs = var.vpc_availability_zones == [""] ? ["${local.region}a", "${local.region}b"] : var.vpc_availability_zones
 }
 module "vpc" {
   count   = var.create_vpc ? 1 : 0
