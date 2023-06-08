@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.1...v0.2.2) (2023-06-08)
+
+
+### Bug Fixes
+
+* vpc azs trinary condtion ([#49](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/49)) ([bfb375e](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/bfb375e5ea4fd6ef63e0c3fcbe3a6eda36a16781))
+
 ## [0.2.1](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.0...v0.2.1) (2023-05-30)
 
 
