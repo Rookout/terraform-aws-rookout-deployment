@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.3...v0.2.4) (2023-06-22)
+
+
+### Bug Fixes
+
+* add token enforcement flag ([#55](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/55)) ([e2283f7](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/e2283f7241c7e60696a8ff169cd0213dc50347c8))
+
 ## [0.2.3](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.2...v0.2.3) (2023-06-22)
 
 
