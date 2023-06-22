@@ -26,7 +26,7 @@
       },
       {
         "name": "ROOKOUT_ENFORCE_TOKEN",
-        "value": "true"
+        "value": "${enforce_token}"
       },
       {
         "name": "ROOKOUT_TOKEN",

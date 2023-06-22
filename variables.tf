@@ -81,10 +81,17 @@ variable "controller_version" {
 variable "rookout_token" {
   type = string
   validation {
-    condition     = length(var.rookout_token) == 64
+    condition     = var.rookout_token == "" || length(var.rookout_token) == 64
     error_message = "Rookout token have to be 64 characters in length."
   }
+  default     = ""
   description = "Rookout token"
+}
+
+variable "enforce_token" {
+  type        = bool
+  default     = true
+  description = "Whether to enforce the token in controller"
 }
 
 ## VPC variables. 
@@ -205,37 +212,37 @@ variable "internal" {
 }
 
 variable "controller_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs of controller security group"
 }
 
 variable "controller_alb_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs for controller's ALB security group"
 }
 
 variable "datastore_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs of datastore security group"
 }
 
 variable "datastore_alb_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs datastore's ALB security group"
 }
 
 variable "demo_app_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs of datastore security group"
 }
 
 variable "demo_app_alb_sg_igress_cidr_blocks" {
-  type = list(string)
-  default = ["0.0.0.0/0"]
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs datastore's ALB security group"
 }
