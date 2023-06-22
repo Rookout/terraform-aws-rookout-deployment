@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.2...v0.2.3) (2023-06-22)
+
+
+### Bug Fixes
+
+* pr linter ([#53](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/53)) ([b943f49](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/b943f49510661c59b480a4248e97a4a1493c77fa))
+
 ## [0.2.2](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.1...v0.2.2) (2023-06-08)
 
 
