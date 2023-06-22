@@ -19,7 +19,7 @@ Network architecture (default deployment):
 4. Get your organizational Rookout token, and pass it as a variable to this module
    ```
    rookout_token = "..."
-   ```
+   ``` 
 
 ## Components
 
