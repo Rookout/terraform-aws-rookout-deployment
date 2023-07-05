@@ -51,7 +51,7 @@ resource "aws_ecs_service" "controller" {
   name            = local.controller_settings.container_name
   cluster         = var.create_cluster ? aws_ecs_cluster.rookout[0].id : data.aws_ecs_cluster.provided[0].id
   task_definition = aws_ecs_task_definition.controller.arn
-  desired_count   = 2 # TODO: configure
+  desired_count   = var.controller_replicas
   launch_type     = "FARGATE"
   network_configuration {
     security_groups = [aws_security_group.controller.id]
