@@ -57,6 +57,12 @@ variable "controller_resource" {
   description = "Rookout's onprem controller resource map"
 }
 
+variable "controller_replicas" {
+  type = string
+  default = 2
+  description = "Rookout's onprem controller replica count"
+}
+
 variable "datastore_resource" {
   type = map(any)
   default = {
