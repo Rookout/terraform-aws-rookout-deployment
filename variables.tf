@@ -132,6 +132,12 @@ variable "vpc_public_subnets" {
   default = ["172.30.1.64/27", "172.30.1.96/27"]
 }
 
+variable "subdomain_vpc_association" {
+  type = bool
+  default = true
+  description = "flag for association of a hosted zone with a vpc"
+}
+
 ## IAM ECS execution role
 variable "custom_iam_task_exec_role_arn" {
   type        = string
