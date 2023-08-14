@@ -1,7 +1,7 @@
 data "aws_route53_zone" "selected" {
   count        = var.deploy_alb && var.datastore_acm_certificate_arn == "" ? 1 : 0
   name         = var.domain_name
-  private_zone = false
+  private_zone = var.internal
 }
 
 resource "aws_route53_zone" "sub_domain" {
