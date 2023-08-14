@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.5...v0.2.6) (2023-08-14)
+
+
+### Bug Fixes
+
+* private hosted zone support ([#60](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/60)) ([9067d32](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/9067d3209614afbfbc066f39eba450b4876ea1a0))
+
 ## [0.2.5](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.4...v0.2.5) (2023-08-14)
 
 
