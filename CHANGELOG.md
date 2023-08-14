@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.5](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.4...v0.2.5) (2023-08-14)
+
+
+### Bug Fixes
+
+* add controller replica configuration ([#57](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/57)) ([cab433f](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/cab433f64dbcba33dc9792344532d2330ec0e8c0))
+* feature flag for vpc assosiation with hosted zone ([#59](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/59)) ([7dcd625](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/7dcd625ab6074d6ddbfbb36f0978a7a83eaa9306))
+
 ## [0.2.4](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.3...v0.2.4) (2023-06-22)
 
 
