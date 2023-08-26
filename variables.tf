@@ -58,10 +58,11 @@ variable "controller_resource" {
 }
 
 variable "controller_replicas" {
-  type = string
-  default = 2
+  type        = string
+  default     = 2
   description = "Rookout's onprem controller replica count"
 }
+
 
 variable "datastore_resource" {
   type = map(any)
@@ -70,6 +71,12 @@ variable "datastore_resource" {
     memory = 4096
   }
   description = "Rookout's onprem datastore resource map"
+}
+
+variable "datastore_image" {
+  type        = string
+  default     = "rookout/data-on-prem"
+  description = "Datastore image name"
 }
 
 variable "datastore_version" {
@@ -82,6 +89,12 @@ variable "controller_version" {
   type        = string
   default     = "latest"
   description = "Controller image version"
+}
+
+variable "controller_image" {
+  type        = string
+  default     = "rookout/controller"
+  description = "Controller image name"
 }
 
 variable "rookout_token" {
@@ -133,8 +146,8 @@ variable "vpc_public_subnets" {
 }
 
 variable "subdomain_vpc_association" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "flag for association of a hosted zone with a vpc"
 }
 

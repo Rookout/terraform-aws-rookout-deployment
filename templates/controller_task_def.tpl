@@ -1,7 +1,7 @@
 [
   {
     "name": "${name}",
-    "image": "rookout/controller:${controller_version}",
+    "image": "${controller_image}:${controller_version}",
     "cpu": ${cpu},
     "memory": ${memory},
     "memoryReservation": ${memory},

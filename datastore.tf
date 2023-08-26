@@ -29,6 +29,7 @@ locals {
     datastore_in_memory_db = local.datastore_settings.datastore_in_memory_db
     additional_env_vars    = var.additional_datastore_env_vars
     datastore_version      = var.datastore_version
+    datastore_image        = var.datastore_image
   })
 
 }

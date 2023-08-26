@@ -210,6 +210,8 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | ECS cluster name, if we want to deploy to existing one | `string` | `""` | no |
 | <a name="input_controller_acm_certificate_arn"></a> [controller\_acm\_certificate\_arn](#input\_controller\_acm\_certificate\_arn) | ARN of pre-imported SSL certificate to ACM for Rookouts controller public access, if datastore ACM provided controller alb will be internal | `string` | `""` | no |
 | <a name="input_controller_alb_sg_igress_cidr_blocks"></a> [controller\_alb\_sg\_igress\_cidr\_blocks](#input\_controller\_alb\_sg\_igress\_cidr\_blocks) | Ingress CIDRs for controller's ALB security group | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| <a name="input_controller_image"></a> [controller\_image](#input\_controller\_image) | Controller image name | `string` | `"rookout/controller"` | no |
+| <a name="input_controller_replicas"></a> [controller\_replicas](#input\_controller\_replicas) | Rookout's onprem controller replica count | `string` | `2` | no |
 | <a name="input_controller_resource"></a> [controller\_resource](#input\_controller\_resource) | Rookout's onprem controller resource map | `map(any)` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
 | <a name="input_controller_sg_igress_cidr_blocks"></a> [controller\_sg\_igress\_cidr\_blocks](#input\_controller\_sg\_igress\_cidr\_blocks) | Ingress CIDRs of controller security group | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_controller_target_group_arn"></a> [controller\_target\_group\_arn](#input\_controller\_target\_group\_arn) | Target group used by controller ECS tasks | `string` | `""` | no |
@@ -219,6 +221,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_custom_iam_task_exec_role_arn"></a> [custom\_iam\_task\_exec\_role\_arn](#input\_custom\_iam\_task\_exec\_role\_arn) | ECS execution IAM Role overwrite, please pass arn of existing IAM Role | `string` | `""` | no |
 | <a name="input_datastore_acm_certificate_arn"></a> [datastore\_acm\_certificate\_arn](#input\_datastore\_acm\_certificate\_arn) | ARN of pre-imported SSL certificate to ACM for Rookouts datastore public access | `string` | `""` | no |
 | <a name="input_datastore_alb_sg_igress_cidr_blocks"></a> [datastore\_alb\_sg\_igress\_cidr\_blocks](#input\_datastore\_alb\_sg\_igress\_cidr\_blocks) | Ingress CIDRs datastore's ALB security group | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| <a name="input_datastore_image"></a> [datastore\_image](#input\_datastore\_image) | Datastore image name | `string` | `"rookout/data-on-prem"` | no |
 | <a name="input_datastore_resource"></a> [datastore\_resource](#input\_datastore\_resource) | Rookout's onprem datastore resource map | `map(any)` | <pre>{<br>  "cpu": 2048,<br>  "memory": 4096<br>}</pre> | no |
 | <a name="input_datastore_sg_igress_cidr_blocks"></a> [datastore\_sg\_igress\_cidr\_blocks](#input\_datastore\_sg\_igress\_cidr\_blocks) | Ingress CIDRs of datastore security group | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_datastore_target_group_arn"></a> [datastore\_target\_group\_arn](#input\_datastore\_target\_group\_arn) | Target group used by datastore ECS tasks | `string` | `""` | no |
@@ -237,6 +240,7 @@ demo.PROVIDE_DOMAIN - flask demo application for debuging when DNS provided.
 | <a name="input_internal_controller_alb"></a> [internal\_controller\_alb](#input\_internal\_controller\_alb) | If domain provided, switching in on will make controller be reachable internaly only | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region, using providers region as default | `string` | `""` | no |
 | <a name="input_rookout_token"></a> [rookout\_token](#input\_rookout\_token) | Rookout token | `string` | `""` | no |
+| <a name="input_subdomain_vpc_association"></a> [subdomain\_vpc\_association](#input\_subdomain\_vpc\_association) | flag for association of a hosted zone with a vpc | `bool` | `true` | no |
 | <a name="input_vpc_availability_zones"></a> [vpc\_availability\_zones](#input\_vpc\_availability\_zones) | n/a | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"172.30.1.0/25"` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC id should be passed only if create\_vpc = false | `string` | `""` | no |
