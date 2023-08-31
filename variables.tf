@@ -271,3 +271,16 @@ variable "demo_app_alb_sg_igress_cidr_blocks" {
   default     = ["0.0.0.0/0"]
   description = "Ingress CIDRs datastore's ALB security group"
 }
+
+variable "deploy_dynatrace_agent" {
+  type = bool
+  default = false
+  description = "Flag to deploy dynatrace oneagent inside the application"
+}
+
+variable "dynatrace_pass_token" {
+  type = string
+  default = ""
+  sensitive = true
+  description = "Dynatrace pass token"
+}
