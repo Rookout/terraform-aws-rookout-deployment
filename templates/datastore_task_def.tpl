@@ -1,7 +1,7 @@
 [
   {
     "name": "${name}",
-    "image": "rookout/data-on-prem:${datastore_version}",
+    "image": "${datastore_image}:${datastore_version}",
     "cpu": ${cpu},
     "memory": ${memory},
     "memoryReservation": ${memory},

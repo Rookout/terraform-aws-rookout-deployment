@@ -10,7 +10,7 @@ resource "aws_route53_zone" "sub_domain" {
   comment = var.internal && var.domain_name != "" ? "${var.domain_name}" : "${var.environment}.${var.domain_name}"
 
   dynamic "vpc" {
-    for_each = var.internal && var.subdomain_vpc_association  ? [1] : []
+    for_each = var.internal && var.subdomain_vpc_association ? [1] : []
     content {
       vpc_id = var.create_vpc ? module.vpc[0].vpc_id : var.vpc_id
     }
