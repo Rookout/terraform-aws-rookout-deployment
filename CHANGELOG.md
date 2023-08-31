@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.6...v0.2.7) (2023-08-31)
+
+
+### Bug Fixes
+
+* add image name variables for dop ([#62](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/62)) ([3d03413](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/3d0341306c9f558027841d7014a43e932c3d829d))
+
 ## [0.2.6](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.5...v0.2.6) (2023-08-14)
 
 
