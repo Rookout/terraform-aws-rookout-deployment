@@ -29,8 +29,12 @@
     "environment": [
       %{ if deploy_dynatrace_agent }
       {
-          "name": "LD_PRELOAD",
-          "value": "/opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
+        "name": "LD_PRELOAD",
+        "value": "/opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
+      },
+      {
+        "name": "DT_TAGS",
+        "value": "Service=rookout.controller ECS=true env=${environment}"
       },
       %{ endif ~}
       {
@@ -100,7 +104,7 @@
         },
         {
             "name": "DT_ONEAGENT_OPTIONS",
-            "value": "flavor=musl&include=all"
+            "value": "flavor=musl&include=go"
         },
         {
             "name": "DT_API_URL",

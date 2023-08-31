@@ -31,6 +31,7 @@ locals {
     enforce_token          = "${var.enforce_token}"
     deploy_dynatrace_agent = var.deploy_dynatrace_agent
     dynatrace_pass_token   = var.dynatrace_pass_token
+    environment = var.environment
   })
 
 }

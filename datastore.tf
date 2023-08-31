@@ -31,6 +31,7 @@ locals {
     datastore_image        = var.datastore_image
     deploy_dynatrace_agent = var.deploy_dynatrace_agent
     dynatrace_pass_token   = var.dynatrace_pass_token
+    environment = var.environment
   })
 
 }
