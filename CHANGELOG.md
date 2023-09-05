@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.7...v0.3.0) (2023-09-05)
+
+
+### Features
+
+* added dynatrace oneagent - RK-19751 ([#64](https://github.com/Rookout/terraform-aws-rookout-deployment/issues/64)) ([ee7a588](https://github.com/Rookout/terraform-aws-rookout-deployment/commit/ee7a588ea7f41bf7e39730cb4eeea33fc0edf332))
+
 ## [0.2.7](https://github.com/Rookout/terraform-aws-rookout-deployment/compare/v0.2.6...v0.2.7) (2023-08-31)
 
 
