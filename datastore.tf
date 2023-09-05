@@ -1,5 +1,5 @@
 locals {
-  datastore_settings = { # TODO: configure
+  datastore_settings = {
     container_name         = "${var.environment}-datastore"
     task_cpu               = var.datastore_resource.cpu
     task_memory            = var.datastore_resource.memory
@@ -10,7 +10,6 @@ locals {
     container_memory       = var.datastore_resource.memory
     container_port         = 8080
     load_balancer_port     = 8080
-    storage_size           = 21
     datastore_in_memory_db = true
   }
 
@@ -30,6 +29,10 @@ locals {
     additional_env_vars    = var.additional_datastore_env_vars
     datastore_version      = var.datastore_version
     datastore_image        = var.datastore_image
+    deploy_dynatrace_agent = var.deploy_dynatrace_agent
+    dynatrace_pass_token   = var.dynatrace_pass_token
+    environment = var.environment
+    dynatrace_environment_id = var.dynatrace_environment_id
   })
 
 }
@@ -46,8 +49,11 @@ resource "aws_ecs_task_definition" "datastore" {
   task_role_arn            = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   container_definitions    = local.datastore_definition
 
-  ephemeral_storage {
-    size_in_gib = local.datastore_settings.storage_size
+  dynamic "volume" {
+    for_each = var.deploy_dynatrace_agent ? [1] : []
+    content { 
+      name      = "oneagent"
+    } 
   }
 
 }

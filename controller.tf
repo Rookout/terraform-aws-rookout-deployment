@@ -29,6 +29,10 @@ locals {
     controller_version     = var.controller_version
     controller_image       = var.controller_image
     enforce_token          = "${var.enforce_token}"
+    deploy_dynatrace_agent = var.deploy_dynatrace_agent
+    dynatrace_pass_token   = var.dynatrace_pass_token
+    environment = var.environment
+    dynatrace_environment_id = var.dynatrace_environment_id
   })
 
 }
@@ -36,7 +40,7 @@ locals {
 
 resource "aws_ecs_task_definition" "controller" {
 
-  family                   = "${local.controller_settings.container_name}-${var.environment}"
+  family                   = "${local.controller_settings.container_name}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = local.controller_settings.task_cpu
@@ -44,6 +48,13 @@ resource "aws_ecs_task_definition" "controller" {
   execution_role_arn       = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   task_role_arn            = var.custom_iam_task_exec_role_arn == "" ? aws_iam_role.task_exec_role[0].arn : var.custom_iam_task_exec_role_arn
   container_definitions    = local.controller_definition
+
+  dynamic "volume" {
+    for_each = var.deploy_dynatrace_agent ? [1] : []
+    content { 
+      name      = "oneagent"
+    }
+  }
 
 }
 
