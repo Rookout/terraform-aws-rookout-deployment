@@ -284,3 +284,9 @@ variable "dynatrace_pass_token" {
   sensitive = true
   description = "Dynatrace pass token"
 }
+
+variable "dynatrace_environment_id" {
+  type = string
+  default = ""
+  description = "Dynatrace environment id"
+}

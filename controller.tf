@@ -32,6 +32,7 @@ locals {
     deploy_dynatrace_agent = var.deploy_dynatrace_agent
     dynatrace_pass_token   = var.dynatrace_pass_token
     environment = var.environment
+    dynatrace_environment_id = var.dynatrace_environment_id
   })
 
 }

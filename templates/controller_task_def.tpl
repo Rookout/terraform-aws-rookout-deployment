@@ -108,7 +108,7 @@
         },
         {
             "name": "DT_API_URL",
-            "value": "https://ozg05024.live.dynatrace.com/api"
+            "value": "https://${dynatrace_environment_id}.live.dynatrace.com/api"
         }
     ],
     "environmentFiles": [],
